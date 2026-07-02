@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハマヤシステム様｜AI活用研修プログラムのご提案</title>
+<style>
+:root{
+  --bg:#F8F9FC; --surface:#FFFFFF; --surface-2:#EFF2F7;
+  --line:#E1E6EC; --line-2:#CDD4DC;
+  --ink:#2F3034; --ink-2:#45474D; --sub:#6B7280;
+  --accent:#3279F9; --accent-soft:#EAF1FE;
+  --edu:#0E9F6E; --edu-soft:#E7F6EF;
+  --warn:#B45309; --warn-soft:#FBF3E6;
+  --shadow:0 1px 2px rgba(20,25,40,.04),0 8px 30px rgba(20,25,40,.05);
+  --radius:18px; --fs:16px;
+  --maxw:920px;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#121317; --surface:#1B1D22; --surface-2:#212226;
+  --line:#2C2E34; --line-2:#3A3D44;
+  --ink:#ECEEF2; --ink-2:#C6CAD2; --sub:#9AA0AB;
+  --accent:#5B94FB; --accent-soft:#1B2A47;
+  --edu:#34C79A; --edu-soft:#12261F;
+  --warn:#E0A25B; --warn-soft:#2A2113;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:var(--fs); line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:.01em;
+  transition:background .4s ease,color .4s ease;
+  padding-bottom:80px;
+}
+
+/* ---- top control bar ---- */
+.ctrl{
+  position:fixed; top:16px; right:16px; z-index:100;
+  display:flex; gap:8px; align-items:center;
+}
+.ctrl button{
+  font-family:var(--sans); font-size:13px; color:var(--ink-2);
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:999px; padding:8px 14px; cursor:pointer;
+  box-shadow:var(--shadow); transition:.2s;
+  display:flex; align-items:center; gap:6px;
+}
+.ctrl button:hover{border-color:var(--line-2); color:var(--ink)}
+.ctrl .fs-group{display:flex; background:var(--surface); border:1px solid var(--line); border-radius:999px; box-shadow:var(--shadow); overflow:hidden}
+.ctrl .fs-group button{border:none; box-shadow:none; border-radius:0; padding:8px 12px}
+.ctrl .fs-group button+button{border-left:1px solid var(--line)}
+
+/* ---- layout ---- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+section{padding:80px 0 92px}
+.hero{padding:120px 0 72px; text-align:center}
+.eyebrow{
+  font-size:13px; letter-spacing:.18em; color:var(--accent);
+  font-weight:600; margin-bottom:22px;
+}
+.hero h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(30px,5.5vw,50px); line-height:1.35;
+  letter-spacing:.01em; margin-bottom:26px; color:var(--ink);
+}
+.hero .lead{
+  font-size:17px; color:var(--ink-2); max-width:600px; margin:0 auto;
+}
+.hero .meta{
+  margin-top:40px; font-size:13.5px; color:var(--sub);
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+}
+.hero .meta span{
+  background:var(--surface); border:1px solid var(--line);
+  padding:6px 14px; border-radius:999px;
+}
+
+h2.sec{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(22px,3.4vw,30px); line-height:1.4;
+  margin-bottom:14px; color:var(--ink);
+}
+.sec-lead{color:var(--ink-2); font-size:15.5px; margin-bottom:36px; max-width:640px}
+.sec-num{
+  font-size:12px; letter-spacing:.16em; color:var(--accent);
+  font-weight:700; display:block; margin-bottom:12px;
+}
+
+/* ---- cards ---- */
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:30px 32px;
+  box-shadow:var(--shadow); margin-bottom:18px;
+}
+.grid{display:grid; gap:18px}
+.grid.g2{grid-template-columns:1fr 1fr}
+@media(max-width:720px){.grid.g2{grid-template-columns:1fr}}
+
+/* ---- issue chips ---- */
+.issue{
+  display:flex; gap:16px; align-items:flex-start;
+  padding:22px 24px; background:var(--surface);
+  border:1px solid var(--line); border-radius:14px; margin-bottom:12px;
+}
+.issue .n{
+  flex:none; width:34px; height:34px; border-radius:10px;
+  background:var(--accent-soft); color:var(--accent);
+  display:grid; place-items:center; font-weight:700; font-size:15px;
+}
+.issue h4{font-size:16px; margin-bottom:4px; color:var(--ink)}
+.issue p{font-size:14.5px; color:var(--ink-2); line-height:1.7}
+
+/* ---- flow (1+3 -> 2) ---- */
+.flow{
+  display:flex; align-items:stretch; gap:0; flex-wrap:wrap;
+  margin:8px 0 4px;
+}
+.flow .step{
+  flex:1; min-width:190px; background:var(--surface);
+  border:1px solid var(--line); border-radius:14px; padding:22px 20px;
+  position:relative;
+}
+.flow .step .ph{font-size:12px; color:var(--accent); font-weight:700; letter-spacing:.1em}
+.flow .step h4{font-size:16.5px; margin:8px 0 8px; color:var(--ink)}
+.flow .step p{font-size:13.5px; color:var(--ink-2); line-height:1.7}
+.flow .arrow{
+  flex:none; display:grid; place-items:center; width:44px; color:var(--line-2);
+  font-size:22px;
+}
+@media(max-width:720px){
+  .flow{flex-direction:column}
+  .flow .arrow{width:100%; height:32px; transform:rotate(90deg)}
+}
+
+/* ---- program blocks ---- */
+.prog{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  margin-bottom:20px; overflow:hidden;
+}
+.prog .head{
+  display:flex; align-items:center; gap:16px; padding:24px 30px;
+  border-bottom:1px solid var(--line); background:var(--surface-2);
+}
+.prog .badge{
+  flex:none; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:700;
+  letter-spacing:.06em;
+}
+.prog .badge.b1{background:var(--accent-soft); color:var(--accent)}
+.prog .badge.b2{background:var(--edu-soft); color:var(--edu)}
+/* 第1〜3部：ヘッダー帯を同系色で控えめに濃淡分け（フォールバック付き） */
+.prog:has(.p1) .head{background:#EDF1F8; background:color-mix(in srgb, var(--accent-soft) 35%, var(--surface-2))}
+.prog:has(.p2) .head{background:#E8EEFA; background:color-mix(in srgb, var(--accent-soft) 60%, var(--surface-2))}
+.prog:has(.p3) .head{background:#E4EBFD; background:color-mix(in srgb, var(--accent-soft) 90%, var(--surface-2))}
+html[data-theme="dark"] .prog:has(.p1) .head{background:#1E222B; background:color-mix(in srgb, var(--accent-soft) 35%, var(--surface-2))}
+html[data-theme="dark"] .prog:has(.p2) .head{background:#1D2432; background:color-mix(in srgb, var(--accent-soft) 60%, var(--surface-2))}
+html[data-theme="dark"] .prog:has(.p3) .head{background:#1C2740; background:color-mix(in srgb, var(--accent-soft) 90%, var(--surface-2))}
+.prog .head h3{font-size:19px; font-family:var(--serif); font-weight:600; color:var(--ink)}
+.prog .head .dur{margin-left:auto; font-size:13px; color:var(--sub); white-space:nowrap}
+.prog .body{padding:26px 30px}
+.prog .goal{
+  font-size:14px; color:var(--edu); font-weight:600; margin-bottom:16px;
+  display:flex; gap:8px; align-items:baseline;
+}
+.prog ul{list-style:none; display:grid; gap:11px}
+.prog ul li{
+  padding-left:24px; position:relative; font-size:14.8px; color:var(--ink-2); line-height:1.7;
+}
+.prog ul li::before{
+  content:""; position:absolute; left:2px; top:11px;
+  width:7px; height:7px; border-radius:50%; background:var(--accent);
+}
+.prog.edu ul li::before{background:var(--edu)}
+.prog .note{
+  margin-top:18px; padding:14px 16px; background:var(--surface-2);
+  border-radius:10px; font-size:13.5px; color:var(--sub); line-height:1.7;
+}
+
+/* ---- pricing ---- */
+.price-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media(max-width:720px){.price-grid{grid-template-columns:1fr}}
+.price{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:28px 30px; box-shadow:var(--shadow);
+  position:relative;
+}
+.price.reco{border-color:var(--accent)}
+.price .tag{
+  position:absolute; top:-11px; left:30px; background:var(--accent); color:#fff;
+  font-size:11.5px; font-weight:700; letter-spacing:.08em; padding:4px 12px; border-radius:999px;
+}
+.price .name{font-size:15px; color:var(--ink-2); font-weight:600}
+.price .amt{font-family:var(--serif); font-size:34px; font-weight:600; color:var(--ink); margin:8px 0 4px}
+.price .amt small{font-size:15px; color:var(--sub); font-weight:400; margin-left:4px}
+.price .desc{font-size:13.5px; color:var(--sub); line-height:1.7; margin-top:10px}
+.price ul{list-style:none; margin-top:16px; display:grid; gap:8px}
+.price ul li{font-size:13.8px; color:var(--ink-2); padding-left:20px; position:relative}
+.price ul li::before{content:"—"; position:absolute; left:0; color:var(--accent)}
+
+.tool-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+.tool-row .t{
+  background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+  padding:10px 16px; font-size:13.5px; color:var(--ink-2);
+}
+.tool-row .t b{color:var(--ink); font-weight:600}
+
+.callout{
+  background:var(--warn-soft); border:1px solid transparent; border-radius:14px;
+  padding:20px 24px; font-size:14.5px; color:var(--ink-2); line-height:1.8;
+}
+.callout b{color:var(--warn)}
+
+.next{display:grid; gap:12px}
+.next .n-item{
+  display:flex; gap:16px; align-items:flex-start;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:20px 24px;
+}
+.next .n-item .num{
+  flex:none; width:28px; height:28px; border-radius:50%;
+  background:var(--ink); color:var(--bg); display:grid; place-items:center;
+  font-size:14px; font-weight:700;
+}
+.next .n-item p{font-size:14.8px; color:var(--ink-2)}
+.next .n-item b{color:var(--ink)}
+
+footer{
+  text-align:center; padding:60px 24px 20px; color:var(--sub); font-size:13px;
+  border-top:1px solid var(--line); margin-top:40px;
+}
+footer .logo{font-family:var(--serif); font-size:16px; color:var(--ink-2); margin-bottom:6px}
+
+.divider{height:1px; background:var(--line); max-width:var(--maxw); margin:20px auto}
+.fade{opacity:0; transform:translateY(16px); transition:opacity .7s ease,transform .7s ease}
+.fade.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+
+<div class="ctrl">
+  <div class="fs-group" role="group" aria-label="文字サイズ">
+    <button id="fsSmall" title="文字を小さく">小 A</button>
+    <button id="fsLarge" title="文字を大きく">大 A</button>
+  </div>
+  <button id="themeBtn" title="テーマ切替"><span id="themeIcon">🌙</span><span id="themeLabel">Dark</span></button>
+</div>
+
+<!-- HERO -->
+<header class="hero wrap fade">
+  <div class="eyebrow">AI活用研修プログラム ご提案</div>
+  <h1>「使う」から「共に働く」へ。<br>16名全員が、AIと対話できる会社に。</h1>
+  <p class="lead">ツールを入れることがゴールではありません。<br>一人ひとりがAIを"相棒"にできて、その中から次を担う人が育つ。<br>ハマヤシステム様の事業を次の世代へつなぐための、人材育成プログラムです。</p>
+  <div class="meta">
+    <span>ハマヤシステム株式会社 御中</span>
+    <span>対象：全社16名</span>
+    <span>TOKON</span>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<!-- 01 現状理解 -->
+<section class="wrap fade">
+  <span class="sec-num">01 — 現状の理解</span>
+  <h2 class="sec">お話から読み取った現状の整理</h2>
+  <p class="sec-lead">先日の打ち合わせで伺ったお話から、御社のAI導入における論点はこの4つに集約されると考えています。</p>
+
+  <div class="issue">
+    <div class="n">1</div>
+    <div><h4>「入れる」だけでは2:8に割れる</h4>
+    <p>AIツールを配布しても、使いこなす人と全く使わない人にくっきり分かれてしまう。動画教材を配るだけでは、この差は埋まりません。</p></div>
+  </div>
+  <div class="issue">
+    <div class="n">2</div>
+    <div><h4>16名規模には、専用サービスはオーバースペック</h4>
+    <p>初期費用と月額を払う専用サービスは、内部でAPIに転送してコストを調整するため本来の性能を出し切れないことがあります。16名なら主要AIを直接契約する方が、安く・全機能を使えます。</p></div>
+  </div>
+  <div class="issue">
+    <div class="n">3</div>
+    <div><h4>配布プロンプト頼みは「対話」を育てない</h4>
+    <p>用意された命令文をコピペするだけの使い方は、AIとの対話を放棄した状態。提供元が想定した範囲でしか成果が出ず、AIの本当の力を引き出せません。</p></div>
+  </div>
+  <div class="issue">
+    <div class="n">4</div>
+    <div><h4>事業承継を見据えた「判断できる人」の育成</h4>
+    <p>AIが定型業務を担うほど、最後に残るのは"判断"の仕事です。次の世代を担う人材を、この機会に育てることが組織の土台づくりになります。</p></div>
+  </div>
+</section>
+
+<!-- 02 設計思想 -->
+<section class="wrap fade">
+  <span class="sec-num">02 — 設計思想</span>
+  <h2 class="sec">「全員の底上げ」から「エースの育成」へ</h2>
+  <p class="sec-lead">この研修は、全社を一段引き上げたうえで、その中から次を担う人を育てる二段構えで設計しています。誰も置いていかず、伸びる人はどこまでも伸ばす。</p>
+
+  <div class="flow">
+    <div class="step">
+      <div class="ph">STEP 1｜体験</div>
+      <h4>まず「すごい」を全員で</h4>
+      <p>難しい話の前に、AIと遊ぶ。名前をつけ、口調を変え、その場でアプリやチラシが出来る驚きを全員で共有します。</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="step">
+      <div class="ph">STEP 3｜業務直結</div>
+      <h4>自分の仕事に効かせる</h4>
+      <p>見積・請求・契約書レビュー・図面まわりなど、御社の実際の業務でAIを動かし「使える」を実感に変えます。</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="step" style="border-color:var(--edu)">
+      <div class="ph" style="color:var(--edu)">STEP 2｜育成</div>
+      <h4>判断できる人を育てる</h4>
+      <p>意欲あるメンバーを、AIと"共に設計する"レベルへ。事業承継を担うエース人材の芽を育てます。</p>
+    </div>
+  </div>
+  <p class="sec-lead" style="margin-top:24px; margin-bottom:0; font-size:14px;">※ STEP番号は「全社1 → 業務3 → 育成2」というEliosの設計順序をそのまま表しています。全員を通過させてから、次のステージへ選抜的に進みます。</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 プログラム -->
+<section class="wrap fade">
+  <span class="sec-num">03 — プログラム内容</span>
+  <h2 class="sec">全体像について</h2>
+  <p class="sec-lead">NAKAMURA様・ANESIS様で実績のある研修フォーマットをベースに、ハマヤシステム様の業務に合わせて構成しました。今回は<b>第1〜3回（各60分・全社）</b>を実施し、その先の発展プランとして<b>AIエキスパート育成</b>へ接続できます。</p>
+
+  <!-- 第1回 -->
+  <div class="prog">
+    <div class="head">
+      <span class="badge b1 p1">第1部</span>
+      <h3>AIと仲良くなる</h3>
+      <span class="dur">60分</span>
+    </div>
+    <div class="body">
+      <div class="goal">🎯 ゴール：AIへの心理的ハードルをゼロにし、全員が「話しかけられる」状態に</div>
+      <ul>
+        <li>いまAIに何が起きているか（眠くならない程度に、世の中の流れを共有）</li>
+        <li>手元のPCでAIを開き、口調を変えて遊ぶ — 侍口調、関西弁、鬼軍曹風。愛着が湧く体験から入ります</li>
+        <li>自分のAIに<b>名前をつける</b>（これには実は大きな意味があります）</li>
+        <li><b>指令型 vs 対話型</b>：「Excel作って」ではなく「こんな案件があって困ってる、どうしたら？」と相談する違いを体感</li>
+        <li>AIを怒らない・著作権と個人情報の注意点・会社のアカウントを使う理由</li>
+      </ul>
+      <div class="note">動画教材では「今日見ない」で終わりがち。ここは対面ワーク形式で、全員がその場で手を動かして「できた」を持ち帰ります。</div>
+    </div>
+  </div>
+
+  <!-- 第2回 -->
+  <div class="prog">
+    <div class="head">
+      <span class="badge b1 p2">第2部</span>
+      <h3>AIは魔法であり、鏡である</h3>
+      <span class="dur">60分</span>
+    </div>
+    <div class="body">
+      <div class="goal">🎯 ゴール：「難しいプロンプト」の呪縛を解き、自然な日本語で成果を出せるように</div>
+      <ul>
+        <li>プロンプトという「型」は、実はAIの可能性を狭めている — 覚えなくていい理由</li>
+        <li>「AIは魔法であるとともに、鏡です」— 出力はあなたの言葉・イメージ・範囲を超えない</li>
+        <li><b>メタプロンプト</b>：最高のプロンプトはAI自身が一番上手に作れる。AIに聞いてしまう発想</li>
+        <li>自分専用のAIに育てる：役割・所属・困りごとを覚えさせて、毎回説明しなくて済む状態に</li>
+        <li>カジュアルな相談の方が、実は出力がいい — その理由を体験とともに理解する</li>
+      </ul>
+      <div class="note">「聞くは一時の恥」ではなく、AIには何を聞いても恥ずかしくない。この一言が、使わない8割を動かします。</div>
+    </div>
+  </div>
+
+  <!-- 第3回 -->
+  <div class="prog">
+    <div class="head">
+      <span class="badge b1 p3">第3部</span>
+      <h3>ハマヤの仕事に、AIを効かせる</h3>
+      <span class="dur">60分</span>
+    </div>
+    <div class="body">
+      <div class="goal">🎯 ゴール：御社の実業務でAIを動かし、「自分の仕事に使える」を確信に変える</div>
+      <ul>
+        <li><b>見積・請求・書類</b>：自然言語で「この条件で見積を」と伝えるだけで下書きが出る</li>
+        <li><b>契約書レビュー</b>：新規取引先の契約書から、自社に不利な条項をAIがチェック</li>
+        <li><b>画像・チラシ</b>：営業チラシやダッシュボードをその場で生成する実演</li>
+        <li><b>Excel/スプレッドシート</b>：「シート2のデータでダッシュボード作って」で表計算が動く</li>
+        <li>AIエージェント入門：PCの中でAIが自分でファイルを開いて作業する世界の紹介（クロードコード等）</li>
+      </ul>
+      <div class="note">御社はカメラ・防犯という完全オーダーメイドの業態。ここでは実際の業務を題材に、「どこまでできて、どこからが人間の領域か」を一緒に見極めます。</div>
+    </div>
+  </div>
+
+  <!-- 発展プランは末尾の独立セクションへ -->
+</section>
+
+<div class="divider"></div>
+
+<!-- 料金 -->
+<section class="wrap fade">
+  <span class="sec-num">04 — 研修費用</span>
+  <h2 class="sec">全社研修プログラム（全3回・3時間）</h2>
+  <p class="sec-lead">第1〜3回を各60分・合計3時間のパッケージとして構成しました。御社の状況に合わせてフルカスタマイズで組みます。</p>
+
+  <div class="price reco" style="max-width:680px; margin:0 auto">
+    <div class="tag">今回のご提案</div>
+    <div class="name">全社AI活用研修（全3回・3時間）</div>
+    <div class="amt"><span style="text-decoration:line-through; color:var(--sub); font-size:22px; margin-right:10px">50万円</span>40<small>万円</small></div>
+    <div class="desc">本来50万円（3時間規模のフルカスタム）のところ、今回は<b style="color:var(--accent)">40万円</b>でご提案します。</div>
+    <ul>
+      <li>第1部〜第3部（各60分）＝ 全社16名の底上げ</li>
+      <li>初級〜業務活用までを一気通貫で</li>
+      <li>HTML研修資料（当日そのまま使えるもの）を提供</li>
+      <li>御社業務に合わせたデモの用意</li>
+      <li>導入AIの選定・環境設計のご相談を含む</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 次のステップ -->
+<section class="wrap fade">
+  <span class="sec-num">05 — 次のステップ</span>
+  <h2 class="sec">これから決めていきたいこと</h2>
+  <p class="sec-lead">先日の打ち合わせを踏まえ、次に固めたいのはこの3点です。日程調整とあわせて、ご相談させてください。</p>
+  <div class="next">
+    <div class="n-item"><span class="num">1</span><p><b>どのAIをメインにするか</b><br>Claude / ChatGPT / Gemini のどれを主軸にするか。現場で既に使っている方の意見も参考に、御社の業務に合う一本を選びます。</p></div>
+    <div class="n-item"><span class="num">2</span><p><b>何人で・どこまでやるか</b><br>全社16名を対象にするか、まず一部から始めるか。到達したいレベル（基礎まで／アプリ自作まで）もここで決めます。</p></div>
+    <div class="n-item"><span class="num">3</span><p><b>回数と日程</b><br>全3回を通しでやるか、まず1回の体験会から始めるか。社長のご予定と現場の繁忙も見ながら調整します。</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 導入するAIについて -->
+<section class="wrap fade">
+  <span class="sec-num">06 — 導入するAIについて</span>
+  <h2 class="sec">16名なら、主要AIを直接契約するのが最適です</h2>
+  <p class="sec-lead">専用サービスの月20万円＋初期費用は、16名規模ではオーバースペック。主要AIを直接契約すれば、より安く・全機能を・制限なく使えます。研修の中で御社に最適な一本を一緒に選定します。</p>
+  <div class="tool-row">
+    <div class="t"><b>Claude</b>（Teamプラン：年払 $20／月払 $25・1人月あたり／最低5名〜）</div>
+    <div class="t"><b>ChatGPT</b>（Businessプラン：年払 $20／月払 $25・1人月あたり／2名〜）</div>
+    <div class="t"><b>Gemini</b>（Google Workspaceに標準搭載：Starter $8／Standard $18／Plus $28・1人月あたり）</div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <p style="font-size:14.5px; color:var(--ink-2); line-height:1.8">
+    ※金額はいずれも米ドル・1人あたり月額（1ドル150円換算で約1,200〜4,200円）。<b style="color:var(--ink)">Claude・ChatGPTは年払いで1人あたり月$20（約3,000円）前後</b>から。Geminiは単体販売ではなく、Google Workspaceのプランに含まれる形です（旧・単体アドオンは廃止済み）。<br>たとえば全員がClaude（またはChatGPT）を使う場合、16名・年払いで<b style="color:var(--ink)">月約5万円前後</b>から始められます。まず1本に慣れてから、必要に応じて2本目を検討する — この順番が無駄がありません。<br>費用は<b style="color:var(--ink)">年間で捉える</b>ことをおすすめします。1年前と今のAIは全く別物で、変化が速すぎるため、長期の固定契約はかえってリスクになるためです。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 07 発展プラン：AIエキスパート育成 -->
+<section class="wrap fade">
+  <span class="sec-num">07 — この先の発展プラン</span>
+  <h2 class="sec">社内少数精鋭のAIエキスパート育成 — 事業を次の世代へ</h2>
+  <p class="sec-lead">全社研修（第1〜3回）で意欲・適性が見えたメンバーを対象に、AIと"共に設計する"レベルへ引き上げる選抜育成カリキュラムも今後の視野に入れております。</p>
+
+  <div class="prog edu" style="margin-bottom:0">
+    <div class="head">
+      <span class="badge b2">発展</span>
+      <h3>AIエキスパート育成 — 選抜メンバー</h3>
+      <span class="dur">別途ご相談</span>
+    </div>
+    <div class="body">
+      <div class="goal">🎯 ゴール：AIと"共に設計する"レベルの人材を育て、事業承継の土台をつくる</div>
+      <ul>
+        <li>全社研修で意欲・適性が見えたメンバーを対象に、一歩踏み込んだ実践へ</li>
+        <li>AIと一緒に業務ツールを自作する：シフト管理・壁打ちAI・社内アプリのプロトタイピング</li>
+        <li>作ったものを実際に公開・共有する手順まで（サーバーへのアップロードもAIが手ほどき）</li>
+        <li>「AIに丸投げしてバカになる」を避ける — 最終判断は自分が持つマネジメント視点</li>
+        <li>社長が担ってきた顧客対応・判断を、次の世代が引き継ぐための思考のトレーニング</li>
+      </ul>
+      <div class="note">ここで育つのは「AIを使える人」ではなく「AIと組んで判断できる人」。これが、御社が1年半後を見据えたときに一番効いてくる資産になります。（別途ご提案いたします）</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">TOKON</div>
+  <div>ハマヤシステム株式会社 御中｜AI活用研修プログラム ご提案</div>
+  <div style="margin-top:8px; opacity:.7">本提案は打ち合わせ内容をもとにした素案です。内容・費用はご相談に応じて調整いたします。</div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var themeBtn=document.getElementById('themeBtn');
+  var themeIcon=document.getElementById('themeIcon');
+  var themeLabel=document.getElementById('themeLabel');
+  function setTheme(t){
+    root.setAttribute('data-theme',t);
+    if(t==='dark'){themeIcon.textContent='☀️';themeLabel.textContent='Light';}
+    else{themeIcon.textContent='🌙';themeLabel.textContent='Dark';}
+  }
+  setTheme('light');
+  themeBtn.addEventListener('click',function(){
+    setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+  });
+
+  // font size
+  var sizes=[15,16,17,18,19,20];
+  var idx=1;
+  function applyFs(){root.style.setProperty('--fs',sizes[idx]+'px');}
+  document.getElementById('fsLarge').addEventListener('click',function(){
+    if(idx<sizes.length-1){idx++;applyFs();}
+  });
+  document.getElementById('fsSmall').addEventListener('click',function(){
+    if(idx>0){idx--;applyFs();}
+  });
+
+  // fade-in on scroll
+  var faders=document.querySelectorAll('.fade');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.12});
+    faders.forEach(function(f){io.observe(f);});
+  }else{
+    faders.forEach(function(f){f.classList.add('in');});
+  }
+})();
+</script>
+</body>
+</html>
