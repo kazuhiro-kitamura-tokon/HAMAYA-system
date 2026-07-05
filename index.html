@@ -198,6 +198,14 @@ html[data-theme="dark"] .prog:has(.p3) .head{background:#1C2740; background:colo
 .price .amt{font-family:var(--serif); font-size:34px; font-weight:600; color:var(--ink); margin:8px 0 4px}
 .price .amt small{font-size:15px; color:var(--sub); font-weight:400; margin-left:4px}
 .price .desc{font-size:13.5px; color:var(--sub); line-height:1.7; margin-top:10px}
+.price .calc{margin-top:18px; padding:16px 18px; background:var(--surface-2); border:1px solid var(--line); border-radius:12px}
+.price .calc-row{display:flex; justify-content:space-between; align-items:baseline; gap:16px; font-size:13.5px; color:var(--ink-2); padding:5px 0; line-height:1.6}
+.price .calc-row span:first-child{color:var(--sub); flex:none}
+.price .calc-row span:last-child{text-align:right}
+.price .calc-row b{color:var(--ink)}
+.price .calc-row.hl{border-top:1px solid var(--line); margin-top:4px; padding-top:10px}
+.price .calc-row.hl b{color:var(--accent)}
+.price .calc-note{margin-top:10px; font-size:13px; color:var(--accent); font-weight:600; text-align:right}
 .price ul{list-style:none; margin-top:16px; display:grid; gap:8px}
 .price ul li{font-size:13.8px; color:var(--ink-2); padding-left:20px; position:relative}
 .price ul li::before{content:"—"; position:absolute; left:0; color:var(--accent)}
@@ -402,8 +410,14 @@ footer .logo{font-family:var(--serif); font-size:16px; color:var(--ink-2); margi
   <div class="price reco" style="max-width:680px; margin:0 auto">
     <div class="tag">今回のご提案</div>
     <div class="name">全社AI活用研修（全3回・3時間）</div>
-    <div class="amt"><span style="text-decoration:line-through; color:var(--sub); font-size:22px; margin-right:10px">50万円</span>40<small>万円</small></div>
-    <div class="desc">本来50万円（3時間規模のフルカスタム）のところ、今回は<b style="color:var(--accent)">40万円</b>でご提案します。</div>
+    <div class="amt"><span style="text-decoration:line-through; color:var(--sub); font-size:22px; margin-right:10px">72万円</span>45<small>万円</small></div>
+    <div class="desc">本来16名分で72万円のところ、今回は<b style="color:var(--accent)">10名価格の45万円</b>でご提案します（16名ご参加でも、10名分の料金で承ります）。</div>
+    <div class="calc">
+      <div class="calc-row"><span>基本料金</span><span>15,000円 / 時 × 3時間 ＝ <b>1名 45,000円</b></span></div>
+      <div class="calc-row"><span>本来（16名分）</span><span>45,000円 × 16名 ＝ 720,000円</span></div>
+      <div class="calc-row hl"><span>今回のご提案（10名価格）</span><span>45,000円 × 10名 ＝ <b>450,000円</b></span></div>
+      <div class="calc-note">＝ 6名分（270,000円）を実質サービスさせていただきます。</div>
+    </div>
     <ul>
       <li>第1部〜第3部（各60分）＝ 全社16名の底上げ</li>
       <li>初級〜業務活用までを一気通貫で</li>
