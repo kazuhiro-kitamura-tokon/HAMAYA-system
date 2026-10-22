@@ -745,33 +745,54 @@ table.t td.y{color:var(--text)}
 <!-- 18 command vs dialogue -->
 <section class="slide" data-min="2" data-part="第1部">
   <div class="kicker">TWO WAYS</div>
-  <h2>指令型と対話型</h2>
-  <div class="vs mid big-ui" style="flex:0 0 auto">
+  <h2 style="margin-bottom:18px">指令型と文脈型</h2>
+  <div class="vs" style="flex:0 0 auto; margin-top:auto">
     <div class="col">
       <span class="tag" style="align-self:flex-start">指令型　やることだけを伝える</span>
       <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot" style="background:#8F949C"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>この英語のメールに返信を書いて。</pre></div>
       <p class="note">AIは状況を推測して、一般的な文面を作ります。</p>
     </div>
     <div class="col">
-      <span class="tag work" style="align-self:flex-start">対話型　状況と目的を伝えて相談する</span>
-      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>海外の取引先から英語のメールが届いた（下に貼ります）。部品の入荷が遅れていて、納期を1週間延ばしてほしいと伝えたい。関係は崩したくないので、丁寧だけどはっきり伝わる返信にして。日本語訳も並べて。</pre></div>
-      <p class="note">AIは目的に合わせて、構成や言い回しを提案してくれます。</p>
+      <span class="tag work" style="align-self:flex-start">文脈型　背景と目的も一緒に伝える</span>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre><span style="color:#E7C38F; border-bottom:2px solid #E7C38F">海外の取引先から英語のメールが届いた（下に貼ります）。部品の入荷が遅れていて、</span><span style="color:#8EC5FF; border-bottom:2px solid #8EC5FF">納期を1週間延ばしてほしいと伝えたい。</span><span style="color:#F2A7C3; border-bottom:2px solid #F2A7C3">相手とは長い付き合いで、関係は崩したくない。</span><span style="color:#C3B1F5; border-bottom:2px solid #C3B1F5">丁寧だけどはっきり伝わる返信にして。</span><span style="color:#7FDDE6; border-bottom:2px solid #7FDDE6">日本語訳も並べて。</span></pre></div>
+      <p class="note">AIは状況に合わせて、言い回しや構成を選んでくれます。</p>
     </div>
   </div>
+  <div style="margin-top:18px; margin-bottom:auto">
+    <p style="font-size:17px; color:var(--text); margin-bottom:8px"><b>文脈とは</b>　AIが「状況」を理解するための情報です。人に頼むときに自然と添えていることを、AIにも伝えます。</p>
+    <div style="display:flex; gap:10px"><div style="flex:1; background:var(--surface); border:1px solid var(--line); border-top:5px solid #E7C38F; border-radius:10px; padding:8px 14px 10px"><b style="display:flex; align-items:center; gap:8px; font-size:17px; color:var(--text)"><span style="width:12px; height:12px; border-radius:3px; background:#E7C38F"></span>背景</b><span style="font-size:14.5px; color:var(--muted)">何が起きているか</span></div><div style="flex:1; background:var(--surface); border:1px solid var(--line); border-top:5px solid #8EC5FF; border-radius:10px; padding:8px 14px 10px"><b style="display:flex; align-items:center; gap:8px; font-size:17px; color:var(--text)"><span style="width:12px; height:12px; border-radius:3px; background:#8EC5FF"></span>目的</b><span style="font-size:14.5px; color:var(--muted)">何のためか</span></div><div style="flex:1; background:var(--surface); border:1px solid var(--line); border-top:5px solid #F2A7C3; border-radius:10px; padding:8px 14px 10px"><b style="display:flex; align-items:center; gap:8px; font-size:17px; color:var(--text)"><span style="width:12px; height:12px; border-radius:3px; background:#F2A7C3"></span>相手</b><span style="font-size:14.5px; color:var(--muted)">誰に向けてか</span></div><div style="flex:1; background:var(--surface); border:1px solid var(--line); border-top:5px solid #C3B1F5; border-radius:10px; padding:8px 14px 10px"><b style="display:flex; align-items:center; gap:8px; font-size:17px; color:var(--text)"><span style="width:12px; height:12px; border-radius:3px; background:#C3B1F5"></span>条件</b><span style="font-size:14.5px; color:var(--muted)">守ってほしいこと</span></div><div style="flex:1; background:var(--surface); border:1px solid var(--line); border-top:5px solid #7FDDE6; border-radius:10px; padding:8px 14px 10px"><b style="display:flex; align-items:center; gap:8px; font-size:17px; color:var(--text)"><span style="width:12px; height:12px; border-radius:3px; background:#7FDDE6"></span>形</b><span style="font-size:14.5px; color:var(--muted)">どんな形で欲しいか</span></div></div>
+  </div>
   <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
-  <aside>いただいた「英語のメール文章の作成」のご要望から。どちらが良い・悪いではなく、目的に合った答えがどちらから出るかを見せる。</aside>
+  <aside>いただいた「英語のメール文章の作成」のご要望から。右のプロンプトは5つの要素ごとに色分けしてある（下のカードと同じ色）。背景＝入荷遅れ、目的＝1週間延ばしたい、相手＝長い付き合い、条件＝丁寧だけどはっきり、形＝日本語訳も並べて。全部そろえなくてもよく、増えるほど答えが自分向けになる。型の名前は出さない。</aside>
+</section>
+
+<!-- 19b consult -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="kicker">NEXT STEP</div>
+  <h2 style="margin-bottom:18px">背景を渡したら、今度は相談する</h2>
+  <div class="flow" style="margin-top:auto">
+    <div class="f"><span class="num">指令型</span><div class="ic"><svg class="i"><use href="#i-pen"/></svg></div><h3>やることだけ</h3><p>「返信を書いて」。AIは状況を推測して作ります。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f"><span class="num">文脈型</span><div class="ic"><svg class="i"><use href="#i-doc"/></svg></div><h3>背景を渡して頼む</h3><p>状況に合った答えが返ってきます。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f hl"><span class="num">相談</span><div class="ic dk"><svg class="i"><use href="#i-chat"/></svg></div><h3>背景を渡して、聞く</h3><p>自分では思いつかなかった案や、気をつけることまで返ってきます。</p></div>
+  </div>
+  <div class="prompt" style="margin-top:18px"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT · 相談する</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>海外の取引先から英語のメールが届いた（下に貼ります）。部品の入荷が遅れていて、納期を1週間延ばしてもらいたい。関係は崩したくないんだけど、どういう返信にすればいいと思う？</pre></div>
+  <p class="lead" style="font-size:18px; margin-top:12px; margin-bottom:auto">案が返ってきたら「じゃあ2つ目の案で。日本語訳も並べて」と続けます。最後に決めるのは自分です。</p>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>文脈型との違いは、最後を「〜にして」ではなく「どうすればいいと思う？」で終えること。AIが案を出し、こちらが選ぶ。この往復が研修の芯。次のワークで3つとも試してもらう。</aside>
 </section>
 
 <!-- 19 work compare -->
 <section class="slide" data-min="4" data-part="第1部">
   <div class="kicker"><span class="tag work">ワーク</span><span class="tag min">4分</span></div>
-  <h2>同じ頼みごとを、二通りで試す</h2>
+  <h2>同じ頼みごとを、三通りで試す</h2>
   <div class="split r mid big-ui" style="grid-template-columns:1fr 380px; gap:34px; flex:0 0 auto; align-items:center">
     <ol class="steps">
       <li>普段の仕事から、AIに頼めそうなことを一つ選ぶ</li>
       <li>まず「〇〇して」と一行で頼む</li>
-      <li>新しいチャットで、状況・相手・目的を伝えて相談する</li>
-      <li><span>二つの答えを見比べる<small>どこが違ったか、隣の人と話してみてください</small></span></li>
+      <li>新しいチャットで、背景・目的・相手を添えて頼む</li>
+      <li><span>もう一度、「どうすればいいと思う？」と相談する<small>三つの答えを見比べて、隣の人と話してみてください</small></span></li>
     </ol>
     <div class="card soft" style="align-self:start; gap:8px"><h3 style="font-size:18px">題材の候補</h3><ul class="list sm" style="gap:6px"><li>英語のメールへの返信</li><li>請求書を送るメール</li><li>取引先への納期確認</li><li>会議のアジェンダ</li></ul></div>
   </div>
@@ -780,7 +801,7 @@ table.t td.y{color:var(--text)}
 </section>
 
 <!-- 20 meta prompt -->
-<section class="slide" data-min="2" data-part="第1部">
+<section class="slide" data-min="1" data-part="第1部">
   <div class="kicker">TIP</div>
   <h2>頼み方に迷ったら、AIに聞く</h2>
   <div class="split" style="grid-template-columns:1fr 1.2fr; gap:34px; align-items:center">
