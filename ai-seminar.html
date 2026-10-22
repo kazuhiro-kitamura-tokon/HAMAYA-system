@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI活用研修｜株式会社ハマヤシステム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=M+PLUS+1+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#FFFFFF; --text:#1A2A3A; --muted:#5E6268; --line:#D5D5D7;
+  --action:#1A2A3A; --action-fg:#FFFFFF; --soft:#EEEFF0; --accent:#535B65; --silver:#C5C2C2;
+  --hero-a:#FFFFFF; --hero-b:#ECEDEE;
+  --mark:#2F5D8A; --mark-soft:#E6EDF4;
+  --warn:#8A5A1E; --warn-soft:#F4ECE0;
+  --night:#1A2A3A; --night-2:#23354A; --night-text:#F0F0F2; --night-muted:#B9BBC1;
+  --jp:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans CJK JP",sans-serif;
+  --en:"Inter","Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --code:"M PLUS 1 Code","Menlo","Consolas","Noto Sans Mono CJK JP",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%; background:#E4E6E9; overflow:hidden}
+body{font-family:var(--jp); color:var(--text); -webkit-font-smoothing:antialiased}
+.stage{position:fixed; inset:0; display:grid; place-items:center}
+.deck{position:relative; width:1280px; height:720px; transform-origin:center center}
+.slide{position:absolute; inset:0; background:var(--bg); color:var(--text); padding:56px 72px 60px; display:none; flex-direction:column; font-size:23px; line-height:1.65; overflow:hidden}
+.slide.on{display:flex}
+@media (prefers-reduced-motion:no-preference){ .slide.on{animation:in .35s ease} }
+@keyframes in{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+.foot{position:absolute; left:72px; right:72px; bottom:24px; display:flex; justify-content:space-between; font-family:var(--en); font-size:13px; color:var(--muted); letter-spacing:.04em}
+.foot .p{font-family:var(--jp)}
+
+/* type */
+.kicker{display:flex; align-items:center; gap:10px; font-family:var(--en); font-size:14px; font-weight:600; letter-spacing:.16em; color:var(--mark); margin-bottom:12px}
+h1{font-size:54px; font-weight:500; line-height:1.3; color:var(--text)}
+h2{font-size:38px; font-weight:500; line-height:1.35; color:var(--text); margin-bottom:26px}
+h3{font-size:23px; font-weight:700; color:var(--text); line-height:1.45}
+.lead{font-size:22px; color:var(--muted); line-height:1.75}
+.txt{color:var(--text)}
+b,strong{font-weight:700; color:var(--text)}
+.sp{flex:1}
+
+/* tags */
+.tag{display:inline-flex; align-items:center; gap:6px; font-family:var(--jp); font-size:14px; font-weight:700; letter-spacing:.02em; padding:3px 12px; border-radius:999px; background:var(--soft); color:var(--accent)}
+.tag.work{background:var(--action); color:var(--action-fg)}
+.tag.demo{background:var(--mark-soft); color:var(--mark)}
+.tag.adv{background:var(--warn-soft); color:var(--warn)}
+.tag.min{background:transparent; color:var(--muted); padding:0; font-weight:500}
+
+/* icons */
+.ic{width:46px; height:46px; border-radius:12px; background:var(--soft); color:var(--action); display:grid; place-items:center; flex:none}
+.ic svg{width:24px; height:24px}
+.ic.lg{width:64px; height:64px; border-radius:16px}
+.ic.lg svg{width:32px; height:32px}
+.ic.dk{background:var(--action); color:var(--action-fg)}
+.ic.mk{background:var(--mark-soft); color:var(--mark)}
+.ic.wn{background:var(--warn-soft); color:var(--warn)}
+svg.i{fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+
+/* cards: equal heights */
+.cards{display:grid; gap:16px; grid-auto-rows:1fr; align-items:stretch}
+.cards.c2{grid-template-columns:repeat(2,1fr)}
+.cards.c3{grid-template-columns:repeat(3,1fr)}
+.cards.c4{grid-template-columns:repeat(4,1fr)}
+.cards.c5{grid-template-columns:repeat(5,1fr); gap:14px}
+.big-ui.c5 .card{padding:24px 20px}
+.big-ui.c5 .card h3{font-size:23px}
+.big-ui.c5 .card p{font-size:17px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:20px 22px; display:flex; flex-direction:column; gap:10px}
+.card .hd{display:flex; align-items:center; gap:12px}
+.card h3{font-size:21px}
+.card p{font-size:18px; color:var(--muted); line-height:1.6}
+.card.row{flex-direction:row; align-items:flex-start; gap:16px}
+.card.row > div{display:flex; flex-direction:column; gap:4px}
+.card.soft{background:var(--soft); border-color:transparent}
+.card.dark{background:var(--night); border-color:var(--night); color:var(--night-text)}
+.card.dark h3{color:var(--night-text)} .card.dark p{color:var(--night-muted)}
+.card.dark ul.list li{color:var(--night-text)} .card.dark ul.list li::before{background:#B9BBC1}
+.num{font-family:var(--en); font-size:13px; font-weight:600; letter-spacing:.12em; color:var(--mark)}
+
+ul.list{list-style:none; display:grid; gap:12px; align-content:start}
+ul.list li{position:relative; padding-left:26px; font-size:22px; line-height:1.6; color:var(--text)}
+ul.list li::before{content:""; position:absolute; left:4px; top:14px; width:8px; height:8px; border-radius:50%; background:var(--action)}
+ul.list.sm li{font-size:19px} ul.list.sm li::before{top:12px}
+
+ol.steps{list-style:none; counter-reset:s; display:grid; gap:14px; align-content:start}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:40px 1fr; gap:14px; align-items:start; font-size:22px; line-height:1.55}
+ol.steps li::before{content:counter(s); width:36px; height:36px; border-radius:50%; background:var(--action); color:var(--action-fg); font-family:var(--en); font-weight:600; font-size:17px; display:grid; place-items:center}
+ol.steps li small{display:block; font-size:17px; color:var(--muted); margin-top:2px}
+
+/* prompt block */
+.prompt{background:var(--night); color:var(--night-text); border-radius:10px; overflow:hidden; box-shadow:0 6px 20px rgba(26,42,58,.12)}
+.prompt .ph{display:flex; align-items:center; justify-content:space-between; padding:9px 14px 9px 18px; background:var(--night-2); font-family:var(--en); font-size:12.5px; font-weight:600; letter-spacing:.14em; color:var(--night-muted)}
+.prompt .ph .lb{display:flex; align-items:center; gap:8px}
+.prompt .ph .dot{width:8px; height:8px; border-radius:50%; background:#7FA6CF}
+.prompt pre{margin:0; padding:14px 18px 16px; font-family:var(--code); font-size:18px; line-height:1.7; white-space:pre-wrap; word-break:break-word; color:var(--night-text)}
+.copy{font-family:var(--jp); font-size:13px; font-weight:500; letter-spacing:.02em; color:var(--night-text); background:transparent; border:1px solid #4A5A6E; border-radius:6px; padding:4px 10px; min-height:30px; cursor:pointer; display:inline-flex; align-items:center; gap:6px}
+.copy:hover{background:#2E4258}
+.copy:focus-visible{outline:2px solid #B2C0E1; outline-offset:2px}
+.copy svg{width:14px; height:14px}
+.copy.done{border-color:#7FA6CF; color:#CFE0F2}
+.prompt.lite pre{font-size:17px}
+
+/* example (not prompt) */
+.ex{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--silver); border-radius:8px; padding:12px 18px; font-size:19px; line-height:1.6; color:var(--muted)}
+
+/* slot */
+.slot{border:2px dashed var(--silver); border-radius:10px; padding:14px 20px; background:repeating-linear-gradient(135deg,transparent 0 12px,rgba(197,194,194,.13) 12px 24px)}
+.slot .lbl{font-size:14px; font-weight:700; color:var(--accent); letter-spacing:.04em; margin-bottom:4px}
+.slot p{font-size:18px; color:var(--muted); line-height:1.6}
+
+/* split layout with illustration panel */
+.split{display:grid; grid-template-columns:420px 1fr; gap:40px; flex:1; align-items:stretch}
+.split.r{grid-template-columns:1fr 420px}
+.panel{background:linear-gradient(150deg,#FFFFFF,#ECEDEE); border:1px solid var(--line); border-radius:14px; display:grid; place-items:center; padding:24px; position:relative; overflow:hidden}
+.panel.dark{background:linear-gradient(150deg,#1A2A3A,#2B3C52); border-color:#1A2A3A}
+.panel svg.ill{width:100%; height:auto; max-height:100%}
+
+/* cover & dividers */
+.slide.cover{background:linear-gradient(125deg,var(--hero-a),var(--hero-b)); justify-content:center}
+.slide.cover h1{font-size:58px; margin-bottom:22px; max-width:820px; position:relative; z-index:1}
+.slide.cover .meta{margin-top:48px; display:flex; gap:44px; font-size:20px; color:var(--muted); position:relative; z-index:1}
+.slide.cover .meta b{display:block; font-size:13px; font-family:var(--en); letter-spacing:.14em; color:var(--accent); font-weight:600; margin-bottom:2px}
+.cover-art{position:absolute; right:40px; top:50%; transform:translateY(-50%); width:440px; height:440px}
+.slide.div{background:var(--night); color:var(--night-text); justify-content:center}
+.slide.div .kicker{color:var(--night-muted)}
+.slide.div h1{color:var(--night-text); font-size:58px; position:relative; z-index:1}
+.slide.div .lead{color:var(--night-muted); margin-top:18px; max-width:760px; position:relative; z-index:1}
+.slide.div .foot{color:#8F949C}
+.slide.div .mins{font-family:var(--en); font-size:19px; color:var(--night-muted); margin-top:34px}
+.div-art{position:absolute; right:60px; top:50%; transform:translateY(-50%); width:380px; height:380px; opacity:.9}
+
+/* agenda */
+.agenda{display:grid; gap:14px}
+.agenda .it{display:grid; grid-template-columns:64px 1fr 110px; align-items:center; gap:24px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 28px}
+.agenda .tt{font-size:27px; font-weight:500}
+.agenda .tt small{display:block; font-size:18px; color:var(--muted); font-weight:400}
+.agenda .mn{text-align:right; font-family:var(--en); font-size:22px; color:var(--muted)}
+
+/* timeline of reach */
+.tl{position:relative; margin-top:6px}
+.tl .rail{position:absolute; left:48px; right:48px; top:34px; height:2px; background:var(--line)}
+.tl .rail .fill{position:absolute; left:0; top:0; height:2px; width:57%; background:var(--action)}
+.tl .nodes{position:relative; display:grid; grid-template-columns:repeat(8,1fr); gap:8px}
+.tl .n{display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px}
+.tl .n .ic{width:68px; height:68px; border-radius:50%; background:var(--surface); border:2px solid var(--action); color:var(--action)}
+.tl .n.next .ic{border-style:dashed; border-color:var(--accent); color:var(--accent)}
+.tl .n.far .ic{background:var(--night); border-color:var(--night); color:var(--night-text)}
+.tl .n b{font-size:18px; line-height:1.4}
+.tl .n span{font-size:14.5px; color:var(--muted); line-height:1.5}
+.brackets{display:grid; grid-template-columns:5fr 1fr 2fr; gap:8px; margin-top:16px; font-size:15px; font-weight:700; text-align:center}
+.brackets div{padding:8px; border-radius:8px}
+.brackets .a{background:var(--action); color:var(--action-fg)}
+.brackets .b{background:var(--soft); color:var(--muted)}
+.brackets .c{background:var(--mark-soft); color:var(--mark)}
+
+/* company columns */
+.co{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; grid-auto-rows:1fr; flex:1}
+.co .c{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 22px; display:flex; flex-direction:column; gap:12px}
+.co .c .top{display:flex; align-items:center; justify-content:space-between}
+.co .c .nm{font-family:var(--en); font-size:24px; font-weight:600; letter-spacing:.01em}
+.co .c .md{font-family:var(--en); font-size:13px; color:var(--mark); font-weight:600; background:var(--mark-soft); padding:3px 10px; border-radius:999px}
+.co .c ul{list-style:none; display:grid; gap:9px}
+.co .c li{font-size:16.5px; line-height:1.55; color:var(--text); padding-left:18px; position:relative}
+.co .c li::before{content:""; position:absolute; left:2px; top:10px; width:7px; height:7px; border-radius:50%; background:var(--silver)}
+.co .c li em{font-style:normal; font-family:var(--en); font-size:13px; color:var(--muted)}
+.co .c .dir{margin-top:auto; padding-top:12px; border-top:1px solid var(--line); font-size:15.5px; color:var(--muted); line-height:1.55}
+.co .c .dir b{font-size:13px; letter-spacing:.08em; display:block; color:var(--accent)}
+.src{font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.5}
+
+/* stats */
+.stat{display:flex; flex-direction:column; gap:4px}
+.stat .v{font-family:var(--en); font-size:52px; font-weight:500; line-height:1.1; color:var(--text)}
+.stat .v small{font-size:22px; color:var(--muted); font-family:var(--jp); font-weight:500; margin-left:4px}
+.stat .k{font-size:17px; color:var(--muted); line-height:1.5}
+
+/* do-not grid */
+.dont .card{gap:6px}
+.dont .x{display:flex; align-items:center; gap:10px}
+.dont h3{font-size:19px}
+.dont p{font-size:16px}
+.dont.v2 .card{padding:14px 16px; gap:6px}
+.dont.v2 h3{font-size:15.5px; letter-spacing:-.01em; line-height:1.4}
+.dont.v2 .ic{width:34px; height:34px; border-radius:9px}
+.dont.v2 .ic svg{width:18px; height:18px}
+.dont.v2 p{font-size:14px; line-height:1.55}
+.dont.v2 .x{min-height:44px}
+.dont.v2 .alt{min-height:74px; margin-top:auto; padding-top:8px; border-top:1px dashed var(--line); font-size:14px; line-height:1.55; color:var(--text)}
+.dont.v2 .alt b{display:block; font-size:12px; color:var(--mark); letter-spacing:.06em; margin-bottom:1px}
+
+/* self-introduction */
+.si{display:grid; grid-template-columns:1.05fr .95fr 1fr; gap:18px; flex:1; min-height:0}
+.si-col{display:flex; flex-direction:column; gap:10px; min-height:0}
+.si-h{display:flex; align-items:baseline; gap:10px; font-size:17px; font-weight:700}
+.idc{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:12px; overflow:hidden; display:flex; flex-direction:column}
+.idc-top{display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--soft); border-bottom:1px solid var(--line)}
+.idc-top .av{width:36px; height:36px; border-radius:50%; background:var(--action); color:var(--action-fg); display:grid; place-items:center}
+.idc-top .av svg{width:19px; height:19px}
+.idc-top b{display:block; font-size:16px; line-height:1.3}
+.idc-top span{font-size:12.5px; color:var(--muted)}
+.idc-row{flex:1; display:flex; align-items:center; flex-wrap:wrap; gap:0 10px; padding:4px 16px; font-size:16px; line-height:1.4; border-bottom:1px dashed var(--line)}
+.idc-row:last-child{border-bottom:none}
+.idc-row i{font-style:normal; font-family:var(--en); font-size:12px; font-weight:600; color:var(--mark); width:18px; height:18px; border-radius:50%; background:var(--mark-soft); display:grid; place-items:center}
+.idc-row small{flex-basis:100%; padding-left:28px; font-size:13px; color:var(--muted)}
+.wh{flex:1; display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 16px}
+.wh h3{font-size:17px}
+.wh p{font-size:14.5px; color:var(--muted); line-height:1.5}
+.why{display:flex; align-items:flex-start; gap:12px; font-size:17px; line-height:1.55; color:var(--night-text)}
+.why svg{width:20px; height:20px; flex:none; margin-top:3px; color:#7FA6CF}
+
+/* vs */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:stretch}
+.vs .col{display:flex; flex-direction:column; gap:12px}
+.vs .col .note{font-size:18px; color:var(--muted); line-height:1.6}
+
+/* flow */
+.flow{display:flex; align-items:stretch}
+.flow .f{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:18px 20px; display:flex; flex-direction:column; gap:6px}
+.flow .f .num{margin-bottom:2px}
+.flow .f h3{font-size:21px}
+.flow .f p{font-size:17px; color:var(--muted); line-height:1.55}
+.flow .f.hl{border-color:var(--action); box-shadow:inset 0 0 0 1px var(--action)}
+.flow .ar{flex:none; width:40px; display:grid; place-items:center; color:var(--silver)}
+
+/* table */
+table.t{width:100%; border-collapse:separate; border-spacing:0; font-size:20px; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+table.t th,table.t td{padding:14px 20px; text-align:left; border-bottom:1px solid var(--line); vertical-align:middle; line-height:1.5}
+table.t thead th{background:var(--soft); font-size:16px; color:var(--accent); font-weight:700}
+table.t tbody th{width:200px; font-weight:700}
+table.t tr:last-child td,table.t tr:last-child th{border-bottom:none}
+table.t td.y{color:var(--text)}
+
+/* statement */
+.big{font-size:42px; font-weight:500; line-height:1.55; color:var(--text)}
+.center{align-items:center; text-align:center; justify-content:center}
+
+
+/* short slides: enlarge and center content in remaining height */
+.mid{margin-top:auto !important; margin-bottom:auto !important}
+.big-ui .card{padding:28px 30px; gap:12px}
+.big-ui .card h3{font-size:25px}
+.big-ui .card p{font-size:20.5px}
+.big-ui ul.list.sm li{font-size:21px}
+.big-ui ol.steps li{font-size:24px}
+.big-ui .lead{font-size:23px}
+.big-ui .prompt pre{font-size:19.5px}
+.tl.xl .n .ic{width:84px; height:84px}
+.tl.xl .n .ic svg{width:32px; height:32px}
+.tl.xl .rail{top:42px}
+.tl.xl .n b{font-size:20px}
+.tl.xl .n span{font-size:16px}
+
+/* notes */
+.notes{position:fixed; left:16px; right:16px; bottom:16px; max-height:40vh; overflow:auto; background:#1A2A3A; color:#F0F0F2; border-radius:10px; padding:14px 20px; font-size:16px; line-height:1.7; display:none; z-index:20; box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.notes.on{display:block}
+.notes .hd{display:flex; justify-content:space-between; gap:16px; font-family:var(--en); font-size:13px; letter-spacing:.08em; color:#B9BBC1; margin-bottom:6px}
+.notes .hd b{color:#F0F0F2}
+.slide aside{display:none}
+
+@media print{
+  @page{size:1280px 720px; margin:0}
+  html,body{overflow:visible; background:#fff; height:auto}
+  .stage{position:static; display:block}
+  .deck{transform:none !important; width:1280px; height:auto}
+  .slide{position:relative; display:flex !important; width:1280px; height:720px; break-after:page; animation:none !important}
+  .notes{display:none !important}
+  .copy{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-docplus" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15h6"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 16.5 5.5 21l2-7.5L2 9h7z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/><path d="M19 3l2 2-2 2"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></symbol>
+  <symbol id="i-voice" viewBox="0 0 24 24"><path d="M3 11v2M7 8v8M11 5v14M15 8v8M19 10v4"/></symbol>
+  <symbol id="i-rule" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-angry" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 16s1.5-2 4-2 4 2 4 2M7.5 9l2 1M16.5 9l-2 1"/></symbol>
+  <symbol id="i-fog" viewBox="0 0 24 24"><path d="M4 9h12M4 13h16M8 17h12"/><path d="M18 9h2"/></symbol>
+  <symbol id="i-stack" viewBox="0 0 24 24"><path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M8 3h11v15a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-1h11"/><path d="M8 3a2 2 0 0 0-2 2v12"/><path d="M11 8h5M11 12h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h2M14 14h2M8 18h2"/></symbol>
+  <symbol id="i-drive" viewBox="0 0 24 24"><path d="M22 12H2M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20M6 5.5h.01M9 5.5h.01"/><path d="M7 13h6M7 16h10"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4H6v16a2 2 0 0 1-4 0V9h4"/><path d="M10 8h8M10 12h8M10 16h5"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.3A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+  <symbol id="i-pc" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+</svg>
+
+<div class="stage"><div class="deck" id="deck">
+
+<!-- 1 cover -->
+<section class="slide cover" data-min="1" data-part="">
+  <svg class="cover-art" viewBox="0 0 440 440" aria-hidden="true">
+    <defs><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C5C2C2"/></linearGradient></defs>
+    <circle cx="220" cy="220" r="200" fill="url(#og)" opacity=".55"/>
+    <g fill="none" stroke="#1A2A3A" stroke-width="1.4" opacity=".55">
+      <circle cx="220" cy="220" r="150"/><circle cx="220" cy="220" r="96" stroke-dasharray="4 6"/>
+    </g>
+    <g fill="#1A2A3A">
+      <circle cx="220" cy="70" r="7"/><circle cx="350" cy="295" r="7"/><circle cx="90" cy="295" r="7"/>
+      <circle cx="220" cy="220" r="16"/>
+    </g>
+    <g stroke="#1A2A3A" stroke-width="1.4" opacity=".55"><path d="M220 204V77M232 230l112 60M208 230L96 290"/></g>
+    <g fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.4"><rect x="300" y="110" width="96" height="58" rx="10"/><rect x="40" y="128" width="96" height="58" rx="10"/></g>
+    <g stroke="#1A2A3A" stroke-width="1.4"><path d="M314 130h56M314 146h40M54 148h56M54 164h36"/></g>
+  </svg>
+  <div class="kicker">AI TRAINING</div>
+  <h1>AI活用研修<br>話しかけるところから、<br>仕事を任せるところまで</h1>
+  <div class="meta">
+    <div><b>FOR</b>株式会社ハマヤシステム</div>
+    <div><b>DATE</b>2026年10月22日</div>
+    <div><b>LECTURER</b>喜多村 一寛（TOKON）</div>
+  </div>
+  <aside>挨拶と自己紹介。今日は「聞く」より「触る」時間が長いこと、分からないところはその場で止めてほしいことを伝える。</aside>
+</section>
+
+<!-- 2 agenda -->
+<section class="slide" data-min="1" data-part="はじめに">
+  <div class="kicker">TODAY</div>
+  <h2>今日の流れ</h2>
+  <div class="agenda">
+    <div class="it"><div class="ic lg dk"><svg class="i"><use href="#i-chat"/></svg></div><div class="tt">第1部　AIと話し、対話で育てる<small>いまのAI、話しかけ方、頼み方、資料を渡して形を整える</small></div><div class="mn">50分</div></div>
+    <div class="it"><div class="ic lg dk"><svg class="i"><use href="#i-folder"/></svg></div><div class="tt">第2部　AIに仕事場を渡す<small>フォルダの資料を任せる、手順をスキルにする、画面の操作を任せる</small></div><div class="mn">50分</div></div>
+    <div class="it"><div class="ic lg"><svg class="i"><use href="#i-q"/></svg></div><div class="tt">質疑と個別相談<small>自分の仕事で「スキルにしたい作業」を一緒に考える</small></div><div class="mn">20分</div></div>
+  </div>
+  <div class="foot"><span class="p">はじめに</span><span class="pg"></span></div>
+  <aside>全員ChatGPTビジネスプラン。デスクトップアプリが開いていて、ログインできているかをここで確認。うまく入れない人は休憩中に対応。</aside>
+</section>
+
+<!-- 3 goals -->
+<section class="slide" data-min="1" data-part="はじめに">
+  <div class="kicker">GOAL</div>
+  <h2>研修が終わるころには</h2>
+  <div class="cards c3 mid big-ui">
+    <div class="card"><div class="ic lg"><svg class="i"><use href="#i-chat"/></svg></div><h3>気軽に話しかけられる</h3><p>普段の言葉で、AIに相談できるようになります。</p></div>
+    <div class="card"><div class="ic lg"><svg class="i"><use href="#i-doc"/></svg></div><h3>資料を「欲しい形」に整えられる</h3><p>資料を渡し、対話しながら仕上げてもらえるようになります。</p></div>
+    <div class="card dark"><div class="ic lg" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-star"/></svg></div><h3>繰り返す作業を一言で頼める</h3><p>手順を「スキル」として覚えてもらう流れを体験します。</p></div>
+  </div>
+  <div class="foot"><span class="p">はじめに</span><span class="pg"></span></div>
+  <aside>3つ目が今日の山場であることを予告。</aside>
+</section>
+
+<!-- 4 divider P1 -->
+<section class="slide div" data-min="0" data-part="第1部">
+  <svg class="div-art" viewBox="0 0 380 380" aria-hidden="true"><g fill="none" stroke="#B9BBC1" stroke-width="1.4" opacity=".5"><circle cx="190" cy="190" r="170"/><circle cx="190" cy="190" r="110" stroke-dasharray="4 7"/></g><g fill="#23354A" stroke="#B9BBC1" stroke-width="1.4"><rect x="70" y="120" width="170" height="80" rx="14"/><rect x="150" y="210" width="170" height="70" rx="14"/></g><g stroke="#B9BBC1" stroke-width="1.6" stroke-linecap="round"><path d="M95 150h110M95 172h70M175 238h110M175 258h60"/></g></svg>
+  <div class="kicker">PART 1</div>
+  <h1>AIと話し、<br>対話で育てる</h1>
+  <p class="lead">いまのAIを知り、話しかけ方と頼み方を試して、資料を1枚渡して形を整えるところまで進めます。</p>
+  <div class="mins">50 min</div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>第1部開始。</aside>
+</section>
+
+<!-- 5 reach timeline -->
+<section class="slide" data-min="3" data-part="第1部">
+  <div class="kicker">WHAT'S HAPPENING</div>
+  <h2>AIの手が届く範囲が、ここまで広がっています</h2>
+  <div class="mid"><div class="tl xl">
+    <div class="rail"><div class="fill"></div></div>
+    <div class="nodes">
+      <div class="n"><div class="ic"><svg class="i"><use href="#i-chat"/></svg></div><b>話す</b><span>会話で相談する</span></div>
+      <div class="n"><div class="ic"><svg class="i"><use href="#i-clip"/></svg></div><b>渡す</b><span>ファイルを添付して読んでもらう</span></div>
+      <div class="n"><div class="ic"><svg class="i"><use href="#i-docplus"/></svg></div><b>作る</b><span>資料や表を作ってもらう</span></div>
+      <div class="n"><div class="ic"><svg class="i"><use href="#i-folder"/></svg></div><b>仕事場を渡す</b><span>フォルダの資料で直接作業してもらう</span></div>
+      <div class="n"><div class="ic"><svg class="i"><use href="#i-star"/></svg></div><b>覚えてもらう</b><span>手順をスキルにする</span></div>
+      <div class="n next"><div class="ic"><svg class="i"><use href="#i-link"/></svg></div><b>手を伸ばす</b><span>他のアプリとつながって動く</span></div>
+      <div class="n far"><div class="ic"><svg class="i"><use href="#i-users"/></svg></div><b>同僚として働く</b><span>チームの一員として仕事を進め、報告する</span></div>
+      <div class="n far"><div class="ic"><svg class="i"><use href="#i-person"/></svg></div><b>自立した社員として働く</b><span>自分で仕事を見つけ、24時間動き続ける</span></div>
+    </div>
+  </div>
+  <div class="brackets"><div class="a">今日体験する範囲</div><div class="b">この先</div><div class="c">すでに始まりつつある</div></div>
+  <div class="card soft" style="margin-top:26px; flex-direction:row; align-items:center; gap:16px"><div class="ic mk"><svg class="i"><use href="#i-spark"/></svg></div><p style="font-size:21px; color:var(--text)">AIは「質問に答える道具」から「仕事場に入ってくる同僚」へ。最先端では、24時間動き続けるAIが登場しています。</p></div></div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>機能名は出しすぎない。右端の2つは次のスライドの実例（OpenAIのdots、GoogleのGemini Spark、MetaのMuse）で裏づける。</aside>
+</section>
+
+<!-- 6 big3 -->
+<section class="slide" data-min="3" data-part="第1部">
+  <div class="kicker">NOW · 2026年10月時点</div>
+  <h2 style="margin-bottom:18px">大手3社の現在地</h2>
+  <div class="co">
+    <div class="c">
+      <div class="top"><span class="nm">OpenAI</span><span class="md">ChatGPT</span></div>
+      <ul>
+        <li>最新モデル GPT-6 Astra を発表 <em>9/22</em></li>
+        <li>24時間動き続けるエージェント「dots」を発表。4,000以上のアプリとつながる <em>9/29</em></li>
+        <li>デスクトップアプリの「Work」で、手元のファイルやアプリを使った作業に対応 <em>7月</em></li>
+      </ul>
+      <div class="dir"><b>向かう先</b>dots同士がチームで連携して働く形へ</div>
+    </div>
+    <div class="c">
+      <div class="top"><span class="nm">Anthropic</span><span class="md">Claude</span></div>
+      <ul>
+        <li>最新モデル Claude Opus 5.5 を発表 <em>9/22</em></li>
+        <li>チャットとCoworkが一つに。会話の中でファイル作業・スキル・外部アプリ連携まで <em>9/16</em></li>
+        <li>Chromeの中で、ログイン済みのWebアプリを操作 <em>8/12</em></li>
+      </ul>
+      <div class="dir"><b>向かう先</b>どの端末からも、一つのClaudeに仕事を任せられる形へ</div>
+    </div>
+    <div class="c">
+      <div class="top"><span class="nm">Google</span><span class="md">Gemini</span></div>
+      <ul>
+        <li>最新モデル Gemini 4 Argon を発表 <em>9/30</em></li>
+        <li>24時間動く個人向けエージェント「Gemini Spark」。日本語にも対応 <em>7月</em></li>
+        <li>Windows版のデスクトップアプリを公開 <em>9/10</em></li>
+      </ul>
+      <div class="dir"><b>向かう先</b>「個人的で、先回りして動き、頼りになる」万能アシスタントへ</div>
+    </div>
+  </div>
+  <p class="src">出典：各社公式発表（openai.com、anthropic.com／claude.com、blog.google）2026年7〜9月。提供範囲はプランや地域で異なります。</p>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>3社とも「答えるAI」から「自分で動くAI」へ同じ方向に進んでいる、が結論。dotsはProとBusiness Premiumが対象。Sparkは日本ではUltraプランから。研修直前に変更がないか確認。</aside>
+</section>
+
+<!-- 7 other moves -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">AGENTS</div>
+  <h2>「自分で動くAI」をめぐる、最近の動き</h2>
+  <div class="split r" style="gap:28px">
+    <div style="display:grid; gap:14px; align-content:start">
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-moon"/></svg></div><div><h3>OpenAI「dots」<span class="tag min" style="margin-left:8px">2026/9/29</span></h3><p>24時間、目標に向かって動き続けるエージェント。口座や情報の共有に関わる操作は、ルールに照らして自動で確認します。</p></div></div>
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-shield"/></svg></div><div><h3>Meta「Muse」<span class="tag min" style="margin-left:8px">2026/9/8・米国</span></h3><p>メール送信や旅行の予約まで行う個人向けエージェント。外に出る操作はすべて、別のAI「Sentinel」が承認します。</p></div></div>
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-check"/></svg></div><div><h3>TypeSafe AI「Jev」<span class="tag min" style="margin-left:8px">2026/9/15</span></h3><p>文章を書かず「選ぶ・点数をつける・はい／いいえ」だけを高速に返すモデル。業務の中の判断を担う方向の動き。</p></div></div>
+    </div>
+    <div class="panel">
+      <svg class="ill" viewBox="0 0 380 360" aria-hidden="true">
+        <g fill="none" stroke="#1A2A3A" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="190" cy="180" r="130" stroke="#C5C2C2"/>
+          <circle cx="190" cy="180" r="70" stroke-dasharray="4 6"/>
+          <path d="M190 50v40M190 270v40M60 180h40M280 180h40"/>
+        </g>
+        <circle cx="190" cy="180" r="34" fill="#1A2A3A"/>
+        <g stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"><path d="M180 180l7 7 14-14"/></g>
+        <g fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.6"><rect x="150" y="18" width="80" height="34" rx="8"/><rect x="290" y="163" width="80" height="34" rx="8"/><rect x="150" y="308" width="80" height="34" rx="8"/><rect x="10" y="163" width="80" height="34" rx="8"/></g>
+        <g font-family="Zen Kaku Gothic New, sans-serif" font-size="14" fill="#1A2A3A" text-anchor="middle"><text x="190" y="40">メール</text><text x="330" y="185">予定</text><text x="190" y="330">ファイル</text><text x="50" y="185">Web</text></g>
+      </svg>
+    </div>
+  </div>
+  <p class="src">出典：openai.com（Introducing dots）、about.fb.com（Introducing Muse）、ITmedia ほか（Jev）。</p>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>共通点は「自分で動く」と「動く前に確認する仕組み」がセットになっていること。Museは米国のみ。Jevは紹介程度でよい。</aside>
+</section>
+
+<!-- 8 security -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">SECURITY</div>
+  <h2>攻撃する側も、AIを使い始めています</h2>
+  <div class="cards c3" style="max-height:236px">
+    <div class="card"><div class="stat"><span class="v">7,190<small>件</small></span><span class="k">2025年の不正アクセスの認知件数。前年から約34%増加。<br>（警察庁ほか 2026/3）</span></div></div>
+    <div class="card"><div class="stat"><span class="v">123<small>件</small></span><span class="k">2026年上半期のランサムウェア被害。半期で過去最多。うち中小企業79件、製造業が最多の37件。（警察庁 2026/9）</span></div></div>
+    <div class="card"><div class="stat"><span class="v">3<small>位</small></span><span class="k">情報セキュリティ10大脅威2026（組織）に「AIの利用をめぐるサイバーリスク」が初めて選ばれました。（IPA 2026/1）</span></div></div>
+  </div>
+  <div class="card dark" style="margin-top:16px; flex-direction:row; align-items:center; gap:18px">
+    <div class="ic lg" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-shield"/></svg></div>
+    <div><h3>守る側も、AIの力を借りる時代です</h3><p>不審なメールの見分け、設定や手順の確認、社内ルールの整理。AIを正しく使える人がいることが、会社を守る力にもなります。</p></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>生成AIを使って作られた偽サイトの摘発事例も警察庁資料にある。Anthropicの2026年9月の脅威レポートでも、多くの攻撃でAIが使われていると報告。不安をあおらず「だから使える人が必要」に着地させる。</aside>
+</section>
+
+<!-- 9 four ways overview -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="kicker">HOW TO TALK</div>
+  <h2>AIに話しかけるときの、5つのこと</h2>
+  <div class="cards c5 mid big-ui">
+    <div class="card"><span class="num">01</span><div class="ic lg"><svg class="i"><use href="#i-tag"/></svg></div><h3>名前をつける</h3><p>AIが誰かを決める</p></div>
+    <div class="card"><span class="num">02</span><div class="ic lg"><svg class="i"><use href="#i-person"/></svg></div><h3>自己紹介をする</h3><p>自分が誰かを伝える</p></div>
+    <div class="card"><span class="num">03</span><div class="ic lg"><svg class="i"><use href="#i-voice"/></svg></div><h3>口調を変える</h3><p>話しやすく整える</p></div>
+    <div class="card"><span class="num">04</span><div class="ic lg"><svg class="i"><use href="#i-rule"/></svg></div><h3>ルールを決める</h3><p>答え方を先に決める</p></div>
+    <div class="card"><span class="num">05</span><div class="ic lg"><svg class="i"><use href="#i-home"/></svg></div><h3>居場所を作る</h3><p>仕事ごとの部屋を作る</p></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>道具として「使う」のではなく、一緒に働く相手として迎える準備、という流れ。最初に名前と口調で手を動かし、そのあと自己紹介・ルール・居場所を順に説明する。</aside>
+</section>
+
+<!-- 10 work: name & tone -->
+<section class="slide" data-min="3" data-part="第1部">
+  <div class="kicker"><span class="tag work">ワーク</span><span class="tag min">3分</span>名前をつける・口調を変える</div>
+  <h2>実際に話しかけてみましょう</h2>
+  <div class="cards c2" style="flex:1; grid-auto-rows:auto; align-content:start">
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="display:flex; align-items:center; gap:10px"><div class="ic"><svg class="i"><use href="#i-tag"/></svg></div><h3>名前をつける</h3></div>
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>これから一緒に仕事をする相棒として、あなたに名前をつけたい。呼びやすい名前の候補を3つ出して。</pre></div>
+      <p class="lead" style="font-size:18px">決めたら、その名前で呼びかけてみてください。</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="display:flex; align-items:center; gap:10px"><div class="ic"><svg class="i"><use href="#i-voice"/></svg></div><h3>口調を変える</h3></div>
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>ここから先は、時代劇の侍のような口調で話して。</pre></div>
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>今度は、関西の気さくな先輩のような口調で、今日の天気の話をして。</pre></div>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>全員で手を動かす。アプリでもブラウザでもよい。笑いが出たら成功。最後は普段の口調に戻すか、好きな口調で残してもよい。</aside>
+</section>
+
+<!-- 11 why name (AI view) -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">INSIDE THE AI</div>
+  <h2>名前をつけると答えが変わる、AIの側の理由</h2>
+  <div class="flow" style="margin-top:auto; margin-bottom:18px">
+    <div class="f"><span class="num">INPUT</span><h3>渡された言葉を全部読む</h3><p>AIは、会話にある言葉すべてを手がかりに次の言葉を組み立てます。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f hl"><span class="num">ROLE</span><h3>自分の役割を読み取る</h3><p>名前と「相棒」という関係から、どんな立場で答えればよいかを判断します。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f"><span class="num">OUTPUT</span><h3>その役割らしく答える</h3><p>一般的な回答ではなく、相手に合わせた相談役としての答えになります。</p></div>
+  </div>
+  <div class="cards c2" style="margin-bottom:auto">
+    <div class="card row"><div class="ic mk"><svg class="i"><use href="#i-chat"/></svg></div><div><h3>人の側の変化</h3><p>名前で呼ぶと、状況や背景を自然に説明するようになり、AIに渡る情報が増えます。</p></div></div>
+    <div class="card row"><div class="ic mk"><svg class="i"><use href="#i-scroll"/></svg></div><div><h3>覚えておいてもらえる</h3><p>メモリー機能を使えば、名前や関係を次のチャットでも覚えておけます。</p></div></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>AIに感情があるという話ではなく、「渡された言葉から役割を読み取って答える」という仕組みの話として伝える。</aside>
+</section>
+
+<!-- 12 self-introduction -->
+<section class="slide" data-min="3" data-part="第1部">
+  <div class="kicker">02 SELF-INTRODUCTION</div>
+  <h2 style="margin-bottom:18px">自己紹介をする<span style="font-size:21px; color:var(--muted); margin-left:18px">名前は「AIが誰か」、自己紹介は「あなたが誰か」</span></h2>
+  <div class="si">
+    <div class="si-col">
+      <div class="si-h"><span class="num">WHAT</span>何を伝えるか</div>
+      <div class="idc">
+        <div class="idc-top"><div class="av"><svg class="i"><use href="#i-person"/></svg></div><div><b>自己紹介シート</b><span>AIに渡す、自分の説明書</span></div></div>
+        <div class="idc-row"><i>1</i>会社・部署・担当している仕事</div>
+        <div class="idc-row"><i>2</i>よく扱う資料や業務<small>見積・納品書・請求書、英文メール、図面 など</small></div>
+        <div class="idc-row"><i>3</i>社内でよく使う言葉・略語</div>
+        <div class="idc-row"><i>4</i>得意なこと・苦手なこと</div>
+        <div class="idc-row"><i>5</i>AIに手伝ってほしいこと</div>
+      </div>
+    </div>
+    <div class="si-col">
+      <div class="si-h"><span class="num">WHERE</span>どこに置いておくか</div>
+      <div class="wh"><div class="ic"><svg class="i"><use href="#i-gear"/></svg></div><div><h3>設定の個人欄</h3><p>すべてのチャットで読まれます。</p></div></div>
+      <div class="wh"><div class="ic"><svg class="i"><use href="#i-home"/></svg></div><div><h3>プロジェクトの指示</h3><p>その仕事の中だけで読まれます。</p></div></div>
+      <div class="wh"><div class="ic"><svg class="i"><use href="#i-doc"/></svg></div><div><h3>手元のテキストファイル</h3><p>どのAIにも、貼り付けて渡せます。</p></div></div>
+    </div>
+    <div class="si-col">
+      <div class="si-h"><span class="num">WHY</span>何がよくなるか</div>
+      <div class="card dark" style="flex:1; justify-content:center; gap:16px">
+        <div class="why"><svg class="i"><use href="#i-repeat"/></svg><span>毎回の説明が<br>いらなくなる</span></div>
+        <div class="why"><svg class="i"><use href="#i-check"/></svg><span>答えが、自分の仕事に<br>合ったものになる</span></div>
+        <div class="why"><svg class="i"><use href="#i-link"/></svg><span>AIを替えても、<br>そのまま持っていける</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="prompt" style="margin-top:16px"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT · AIに聞き出してもらう</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre style="font-size:16px; padding:10px 18px 12px">私のことを知ってもらうために、仕事の内容・よく扱う資料・得意なことと苦手なこと・手伝ってほしいことを、1つずつ質問して。全部答えたら、AIに渡す自己紹介文として300字ほどにまとめて。</pre></div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>自分で書こうとすると手が止まるので、AIに質問してもらう形で作るのがおすすめ。当日はプロンプトを紹介し、最初の1〜2問だけ答えてもらう程度でよい。できた文章は設定の個人欄（ChatGPT・Claudeとも「パーソナライズ」系の設定。メニュー名はバージョンで変わるので実画面で見せる）に貼る。テキストファイルでも保存しておくと、別のAIに乗り換えても使える。ChatGPTでは設定の「パーソナライズ」にある指示の欄。</aside>
+</section>
+
+<!-- 13 rules -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="kicker">04 RULES</div>
+  <h2>ルールを決める</h2>
+  <div class="split mid big-ui" style="grid-template-columns:1fr 1.15fr; gap:34px; align-items:center; flex:0 0 auto">
+    <div style="display:flex; flex-direction:column; gap:16px">
+      <p class="lead txt">自己紹介が「あなたが誰か」なら、<br>ルールは「どう答えてほしいか」。毎回お願いしていることを、先に登録しておきます。</p>
+      <ul class="list sm">
+        <li>答え方の順番や形（結論から、箇条書きで など）</li>
+        <li>避けてほしいこと</li>
+        <li>必ず確認してほしいこと</li>
+      </ul>
+      <div class="card soft" style="padding:14px 18px"><p style="font-size:16.5px">登録する場所：自己紹介と同じ設定の欄に、続けて書いておけば大丈夫です。</p></div>
+    </div>
+    <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>RULES · 登録する文章の例</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>答えるときは、
+・結論を先に、理由はそのあとに
+・英文のメールには、日本語訳を並べて添える
+・分からないことは推測で埋めず、質問する
+・数字や日付は、根拠になった資料を示す
+・社外向けの文章は「です・ます」で書く</pre></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>自己紹介とルールは同じ欄に書いてよい。画面のメニュー名はバージョンで変わるので、当日は実画面で見せる。</aside>
+</section>
+
+<!-- 13 advanced: AGENTS.md -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker"><span class="tag adv">上級編</span>AGENTS.md</div>
+  <h2 style="margin-bottom:18px">フォルダに「仕事の取扱説明書」を置く</h2>
+  <div class="split" style="grid-template-columns:1fr 1.05fr; gap:30px">
+    <div style="display:flex; flex-direction:column; gap:14px">
+      <div class="flow">
+        <div class="f" style="padding:14px 14px"><div class="ic"><svg class="i"><use href="#i-doc"/></svg></div><h3 style="font-size:17px">説明書を置く</h3></div>
+        <div class="ar" style="width:28px"><svg class="i" width="20" height="20"><use href="#i-arrow"/></svg></div>
+        <div class="f" style="padding:14px 14px"><div class="ic"><svg class="i"><use href="#i-folder"/></svg></div><h3 style="font-size:17px">フォルダを渡す</h3></div>
+        <div class="ar" style="width:28px"><svg class="i" width="20" height="20"><use href="#i-arrow"/></svg></div>
+        <div class="f hl" style="padding:14px 14px"><div class="ic dk"><svg class="i"><use href="#i-check"/></svg></div><h3 style="font-size:17px">読んでから作業</h3></div>
+      </div>
+      <p style="font-size:18px; color:var(--muted); line-height:1.65">作業用フォルダに「AGENTS.md」という名前のテキストファイルを置くと、対応するAIは作業を始める前にそれを読み、書かれたルールに沿って進めます。ChatGPTのデスクトップアプリ（Codex）などが対応しています。</p>
+      <ol class="steps" style="gap:8px">
+        <li style="font-size:19px">フォルダにテキストファイルを作り、名前を「AGENTS.md」にする</li>
+        <li style="font-size:19px">目的・ルール・出来上がりの形を書く</li>
+        <li style="font-size:19px">そのフォルダをAIに渡す</li>
+      </ol>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>AGENTS.md · サンプル</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre style="font-size:15.5px; line-height:1.6"># このフォルダについて
+請求書を送るメールを作るためのフォルダです。
+
+# 作業のルール
+- 件名と本文に、注文番号と船名を必ず入れる
+- 宛先とCCは「提出先一覧.xlsx」に合わせる
+- 英文で送る提出先には、英文と日本語訳を並べる
+- 金額と番号が請求書と合っているか、最後に確認する
+
+# 出来上がりの形
+- 宛先・件名・CC・本文を、そのままコピーできる形で</pre></div>
+      <p style="font-size:15.5px; color:var(--muted)">さらに進んだ使い方は、AIエージェント講習（上級編）で扱っています。</p>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>紹介にとどめる。自己学習やループの話はしない。AGENTS.mdはLinux Foundation傘下の団体が管理する共通形式。Claudeアプリでのフォルダ内ファイルの読み込みは更新履歴に記載あり（2026/9/21）。当日は実機で一度確認。</aside>
+</section>
+
+<!-- 14 place -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="kicker">05 PLACE</div>
+  <h2>居場所を作る</h2>
+  <div class="split">
+    <div class="panel">
+      <svg class="ill" viewBox="0 0 360 300" aria-hidden="true">
+        <path d="M40 130L180 30l140 100v150H40z" fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.8" stroke-linejoin="round"/>
+        <g fill="#EEEFF0" stroke="#1A2A3A" stroke-width="1.4"><rect x="70" y="160" width="70" height="90" rx="6"/><rect x="150" y="160" width="70" height="90" rx="6"/><rect x="230" y="160" width="60" height="50" rx="6"/></g>
+        <g stroke="#1A2A3A" stroke-width="1.4" stroke-linecap="round"><path d="M82 180h46M82 196h36M82 212h42M162 180h46M162 196h30M242 178h36M242 192h24"/></g>
+        <g font-family="Zen Kaku Gothic New, sans-serif" font-size="13" fill="#5E6268" text-anchor="middle"><text x="105" y="270">資料</text><text x="185" y="270">ルール</text><text x="260" y="228">履歴</text></g>
+        <circle cx="180" cy="98" r="22" fill="#1A2A3A"/><path d="M171 98l6 6 12-12" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
+      <p class="lead txt">「プロジェクト」は、仕事ごとの部屋です。資料・ルール・これまでのやり取りを一か所にまとめておけます。</p>
+      <div class="cards c2" style="grid-auto-rows:1fr">
+        <div class="card"><h3>資料を置いておける</h3><p>毎回添付しなくても、部屋の中の資料をもとに答えてくれます。</p></div>
+        <div class="card"><h3>部屋ごとのルール</h3><p>その仕事専用の指示を設定できます。</p></div>
+      </div>
+      <div class="ex" style="font-size:17px; color:var(--text)">「毎回状況の説明、指示などのプロンプトを必要とせずに、その専用チャットを開いてすぐに業務ができればベスト」<span style="display:block; font-size:14px; color:var(--muted); margin-top:4px">いただいたご要望より。例：「見積・請求」「英文メール」「会議」で部屋を分けると、この形に近づきます。</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>ChatGPTでは「プロジェクト」。小林様のご要望の文章をそのまま見せて、「これがプロジェクト＋自己紹介・ルール＋スキルで実現できる形」と伝える。ここまでの5つ（名前・自己紹介・口調・ルール・居場所）で、AIを迎える準備が整う。</aside>
+</section>
+
+<!-- 15 don'ts -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">AVOID</div>
+  <h2 style="margin-bottom:16px">やりがちだけど、避けたいこと</h2>
+  <div class="cards c4 dont v2" style="flex:1">
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-angry"/></svg></div><h3>怒る・責める</h3></div><p>謝罪や言い訳の文章が増えて、肝心の答えが前に進みません。</p><div class="alt"><b>代わりに</b>どこを、どう直してほしいかを具体的に伝える。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-fog"/></svg></div><h3>「いい感じに」とだけ頼む</h3></div><p>何に使う文章か分からないので、ありきたりな答えになります。</p><div class="alt"><b>代わりに</b>目的・読む人・使う場面を一言添える。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-stack"/></svg></div><h3>一度に全部頼む</h3></div><p>頼みごとが多いほど、抜けや取り違えが起きやすくなります。</p><div class="alt"><b>代わりに</b>一つずつ頼み、確認しながら進める。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-scroll"/></svg></div><h3>同じチャットを使い続ける</h3></div><p>話が長くなるほど、最初に伝えた指示が届きにくくなります。</p><div class="alt"><b>代わりに</b>区切りで要点をまとめてもらい、新しいチャットで始める。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-check"/></svg></div><h3>確かめずにそのまま使う</h3></div><p>AIは、もっともらしい間違いをすることがあります。</p><div class="alt"><b>代わりに</b>数字・名前・日付は、元の資料で確かめる。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-lock"/></svg></div><h3>機密情報をそのまま入れる</h3></div><p>入れた情報の扱いは、サービスやプランによって変わります。</p><div class="alt"><b>代わりに</b>社内ルールを確認し、必要なら名前や数字を伏せて渡す。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-retry"/></svg></div><h3>一回で諦める</h3></div><p>最初の答えは、あくまで下書きです。</p><div class="alt"><b>代わりに</b>「ここをこう直して」と、2〜3回やり取りする。</div></div>
+    <div class="card"><div class="x"><div class="ic wn"><svg class="i"><use href="#i-repeat"/></svg></div><h3>毎回ゼロから説明する</h3></div><p>手間がかかるうえ、伝え忘れも起きやすくなります。</p><div class="alt"><b>代わりに</b>自己紹介・ルール・プロジェクトに登録しておく。</div></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>上の段は「頼み方」、下の段は「使い方」の注意。1つ目と4つ目の理由を次のスライドで説明する。</aside>
+</section>
+
+<!-- 16 context window -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">CONTEXT WINDOW</div>
+  <h2>AIの「作業机」には広さがあります</h2>
+  <div class="split" style="grid-template-columns:1.1fr 1fr; gap:34px">
+    <div style="display:flex; flex-direction:column; gap:14px">
+      <p class="lead txt" style="font-size:20px">AIが一度に見ておける量を「コンテキストウィンドウ」と呼びます。指示、資料、これまでのやり取りが、すべて同じ机に乗っています。</p>
+      <div>
+        <div style="font-size:15px; color:var(--muted); margin-bottom:6px">落ち着いて頼んだとき</div>
+        <div style="display:flex; height:34px; border-radius:6px; overflow:hidden; border:1px solid var(--line); font-size:13px; color:#fff; font-weight:700">
+          <div style="width:22%; background:#1A2A3A; display:grid; place-items:center">指示</div>
+          <div style="width:40%; background:#2F5D8A; display:grid; place-items:center">資料</div>
+          <div style="width:22%; background:#535B65; display:grid; place-items:center">やり取り</div>
+          <div style="flex:1; background:#FFFFFF"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:15px; color:var(--muted); margin-bottom:6px">怒りながら何度もやり直したとき</div>
+        <div style="display:flex; height:34px; border-radius:6px; overflow:hidden; border:1px solid var(--line); font-size:13px; color:#fff; font-weight:700">
+          <div style="width:10%; background:#1A2A3A; display:grid; place-items:center">指示</div>
+          <div style="width:16%; background:#2F5D8A; display:grid; place-items:center">資料</div>
+          <div style="flex:1; background:repeating-linear-gradient(135deg,#8A5A1E 0 10px,#A0703A 10px 20px); display:grid; place-items:center">謝罪・言い訳・やり直し</div>
+        </div>
+      </div>
+      <p style="font-size:17px; color:var(--muted)">机がいっぱいになると、古い内容から押し出されたり要約されたりして、最初の指示や資料が反映されにくくなります。</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div class="card" style="gap:6px">
+        <h3 style="font-size:19px">悪循環</h3>
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:17px; color:var(--text); align-items:center">
+          <div class="ic wn" style="width:32px;height:32px"><svg class="i" style="width:18px;height:18px"><use href="#i-angry"/></svg></div><span>怒る・何度もやり直す</span>
+          <div class="ic wn" style="width:32px;height:32px"><svg class="i" style="width:18px;height:18px"><use href="#i-stack"/></svg></div><span>机が謝罪とやり直しで埋まる</span>
+          <div class="ic wn" style="width:32px;height:32px"><svg class="i" style="width:18px;height:18px"><use href="#i-fog"/></svg></div><span>大事な指示や資料が見えにくくなる</span>
+          <div class="ic wn" style="width:32px;height:32px"><svg class="i" style="width:18px;height:18px"><use href="#i-retry"/></svg></div><span>答えがずれて、また怒る</span>
+        </div>
+      </div>
+      <div class="card dark" style="gap:6px"><h3 style="font-size:19px">抜け出し方</h3><p style="font-size:16.5px">直してほしい点を具体的に一つずつ伝える。長くなったら、要点をまとめてもらい、新しいチャットで渡し直す。</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>机の広さはモデルやプランで違う。数字は出さず「広さに限りがある」だけ伝える。</aside>
+</section>
+
+<!-- 17 mirror -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="kicker">MINDSET</div>
+  <h2>AIは魔法であり、鏡でもある</h2>
+  <div class="split r mid big-ui" style="grid-template-columns:1fr 1fr; gap:24px; flex:0 0 auto; min-height:360px">
+    <div class="card" style="justify-content:center; padding:30px"><div class="ic lg"><svg class="i"><use href="#i-spark"/></svg></div><h3 style="font-size:26px">魔法</h3><p style="font-size:20px">文章、表、資料のまとめ、確認作業。頼めば短い時間で形にしてくれます。</p></div>
+    <div class="card dark" style="justify-content:center; padding:30px"><div class="ic lg" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-person"/></svg></div><h3 style="font-size:26px">鏡</h3><p style="font-size:20px">出てくる答えは、こちらが渡した言葉と情報に沿ったものになります。難しい「プロンプトの型」を覚えるより、状況を普段の言葉で伝えることが大切です。</p></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>「型を覚えなきゃ」という思い込みを外す。型の名前は紹介しない。</aside>
+</section>
+
+<!-- 18 command vs dialogue -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">TWO WAYS</div>
+  <h2>指令型と対話型</h2>
+  <div class="vs mid big-ui" style="flex:0 0 auto">
+    <div class="col">
+      <span class="tag" style="align-self:flex-start">指令型　やることだけを伝える</span>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot" style="background:#8F949C"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>この英語のメールに返信を書いて。</pre></div>
+      <p class="note">AIは状況を推測して、一般的な文面を作ります。</p>
+    </div>
+    <div class="col">
+      <span class="tag work" style="align-self:flex-start">対話型　状況と目的を伝えて相談する</span>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>海外の取引先から英語のメールが届いた（下に貼ります）。部品の入荷が遅れていて、納期を1週間延ばしてほしいと伝えたい。関係は崩したくないので、丁寧だけどはっきり伝わる返信にして。日本語訳も並べて。</pre></div>
+      <p class="note">AIは目的に合わせて、構成や言い回しを提案してくれます。</p>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>いただいた「英語のメール文章の作成」のご要望から。どちらが良い・悪いではなく、目的に合った答えがどちらから出るかを見せる。</aside>
+</section>
+
+<!-- 19 work compare -->
+<section class="slide" data-min="4" data-part="第1部">
+  <div class="kicker"><span class="tag work">ワーク</span><span class="tag min">4分</span></div>
+  <h2>同じ頼みごとを、二通りで試す</h2>
+  <div class="split r mid big-ui" style="grid-template-columns:1fr 380px; gap:34px; flex:0 0 auto; align-items:center">
+    <ol class="steps">
+      <li>普段の仕事から、AIに頼めそうなことを一つ選ぶ</li>
+      <li>まず「〇〇して」と一行で頼む</li>
+      <li>新しいチャットで、状況・相手・目的を伝えて相談する</li>
+      <li><span>二つの答えを見比べる<small>どこが違ったか、隣の人と話してみてください</small></span></li>
+    </ol>
+    <div class="card soft" style="align-self:start; gap:8px"><h3 style="font-size:18px">題材の候補</h3><ul class="list sm" style="gap:6px"><li>英語のメールへの返信</li><li>請求書を送るメール</li><li>取引先への納期確認</li><li>会議のアジェンダ</li></ul></div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>思いつかない人には題材の候補から。2〜3人に「どう違った？」と聞く。</aside>
+</section>
+
+<!-- 20 meta prompt -->
+<section class="slide" data-min="2" data-part="第1部">
+  <div class="kicker">TIP</div>
+  <h2>頼み方に迷ったら、AIに聞く</h2>
+  <div class="split" style="grid-template-columns:1fr 1.2fr; gap:34px; align-items:center">
+    <div class="panel" style="height:300px">
+      <svg class="ill" viewBox="0 0 360 260" aria-hidden="true">
+        <g fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.6"><rect x="20" y="30" width="200" height="56" rx="12"/><rect x="140" y="110" width="200" height="56" rx="12" fill="#1A2A3A"/><rect x="20" y="190" width="200" height="56" rx="12"/></g>
+        <g font-family="Zen Kaku Gothic New, sans-serif" font-size="15" text-anchor="middle"><text x="120" y="63" fill="#1A2A3A">何を伝えればいい？</text><text x="240" y="143" fill="#FFFFFF">目的は？ 相手は？</text><text x="120" y="223" fill="#1A2A3A">船会社向けで…</text></g>
+      </svg>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:16px">
+      <p class="lead txt">何を伝えればいいか分からないときは、そのまま相談します。</p>
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>導入実績を紹介する資料を作りたい。うまく頼むには、何を伝えればいい？ 必要なことを一つずつ質問して。</pre></div>
+      <p class="lead" style="font-size:19px">AIが質問してくれるので、答えていくうちに必要な情報がそろいます。</p>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>全員で一度打ってもらい、質問が返ってくる体験をさせる。</aside>
+</section>
+
+<!-- 21 work grow -->
+<section class="slide" data-min="10" data-part="第1部">
+  <div class="kicker"><span class="tag work">ワーク</span><span class="tag min">10分</span></div>
+  <h2>資料を1枚渡して、欲しい形まで育てる</h2>
+  <div class="split r" style="grid-template-columns:1fr 400px; gap:30px">
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <ol class="steps" style="gap:10px">
+        <li>練習用の資料を1枚、チャットに添付して頼む</li>
+      </ol>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT 1</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>この資料の要点をまとめて。</pre></div>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT 2</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>「決まったこと」と「やること」に分けて。</pre></div>
+      <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT 3</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>「やること」は、担当と期限の表にして。</pre></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px">
+      <div class="card soft" style="gap:6px"><h3 style="font-size:18px">練習用の資料</h3><p style="font-size:17px">架空の社内会議メモ（当日配布）。議事録づくりの練習にもなります。</p></div>
+      <div class="card soft" style="flex-direction:row; gap:14px; align-items:flex-start"><div class="ic wn"><svg class="i"><use href="#i-lock"/></svg></div><p style="font-size:17px; color:var(--text)">お客様の個人情報や社外秘の情報は入力しないでください。</p></div>
+      <div class="card" style="flex-direction:row; gap:14px; align-items:flex-start"><div class="ic"><svg class="i"><use href="#i-pen"/></svg></div><p style="font-size:17px">そのあとは自由に。自分が使いやすい形になるまで直してもらいましょう。</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>第2部DEMOの前編。各自の「欲しい形」を第2部でフォルダごと・スキルとして再現する。最後に1人、画面を見せてもらう。</aside>
+</section>
+
+<!-- 22 bridge -->
+<section class="slide" data-min="1" data-part="第1部">
+  <div class="center" style="flex:1; display:flex; flex-direction:column">
+    <div class="ic lg" style="margin-bottom:24px"><svg class="i"><use href="#i-folder"/></svg></div>
+    <p class="big">形はできました。<br>でも、資料が10枚あったら？<br>毎月この手順を繰り返すとしたら？</p>
+    <p class="lead" style="margin-top:22px">第2部では、同じ作業をフォルダごと任せて、手順を覚えてもらいます。</p>
+  </div>
+  <div class="foot"><span class="p">第1部</span><span class="pg"></span></div>
+  <aside>休憩を入れるならここで5分。</aside>
+</section>
+
+<!-- 23 divider P2 -->
+<section class="slide div" data-min="0" data-part="第2部">
+  <svg class="div-art" viewBox="0 0 380 380" aria-hidden="true"><g fill="none" stroke="#B9BBC1" stroke-width="1.4" opacity=".5"><circle cx="190" cy="190" r="170"/><circle cx="190" cy="190" r="110" stroke-dasharray="4 7"/></g><path d="M90 130h70l20 24h110v120H90z" fill="#23354A" stroke="#B9BBC1" stroke-width="1.4" stroke-linejoin="round"/><g stroke="#B9BBC1" stroke-width="1.6" stroke-linecap="round"><path d="M125 200h130M125 222h100M125 244h80"/></g><circle cx="290" cy="120" r="26" fill="#F0F0F2"/><path d="M290 108l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#1A2A3A"/></svg>
+  <div class="kicker">PART 2</div>
+  <h1>AIに<br>仕事場を渡す</h1>
+  <p class="lead">フォルダの資料をまとめて任せ、その手順を「スキル」として覚えてもらいます。</p>
+  <div class="mins">50 min</div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>第2部開始。</aside>
+</section>
+
+<!-- 24 browser vs app -->
+<section class="slide" data-min="2" data-part="第2部">
+  <div class="kicker">BROWSER / APP</div>
+  <h2>ブラウザ版とアプリ版</h2>
+  <table class="t">
+    <thead><tr><th></th><th><span style="display:inline-flex; align-items:center; gap:8px"><svg class="i" width="20" height="20"><use href="#i-browser"/></svg>ブラウザ版</span></th><th><span style="display:inline-flex; align-items:center; gap:8px"><svg class="i" width="20" height="20"><use href="#i-pc"/></svg>デスクトップアプリ版</span></th></tr></thead>
+    <tbody>
+      <tr><th>会話・相談</th><td>できる</td><td class="y">できる</td></tr>
+      <tr><th>ファイルを渡す</th><td>1枚ずつ添付する</td><td class="y"><b>選んだフォルダの資料をAIが直接読む</b></td></tr>
+      <tr><th>ファイルを作る</th><td>作ったものをダウンロードする</td><td class="y"><b>フォルダの中に直接作る・整理する</b></td></tr>
+      <tr><th>ほかのアプリ</th><td>操作できない</td><td class="y"><b>画面を見て、Excelなどを操作できる</b></td></tr>
+      <tr><th>導入</th><td>ログインするだけ</td><td class="y">PCへのインストールが必要</td></tr>
+    </tbody>
+  </table>
+  <div class="card soft" style="margin-top:16px; flex-direction:row; align-items:center; gap:14px"><div class="ic"><svg class="i"><use href="#i-users"/></svg></div><p style="font-size:18px; color:var(--text)">今日はデスクトップアプリで進めます。講師の実演を、手元で一緒に試してください。</p></div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>ChatGPTでは、デスクトップアプリの「Work」で手元のファイルを使う。管理者設定（Work・スキル）が有効か事前に確認済みであること。</aside>
+</section>
+
+<!-- 25 cloud vs local -->
+<section class="slide" data-min="4" data-part="第2部">
+  <div class="kicker">CLOUD / LOCAL</div>
+  <h2 style="margin-bottom:18px">クラウドでの作業と、手元のPCでの作業</h2>
+  <svg viewBox="0 0 1136 300" style="width:100%; height:auto" aria-label="クラウドとローカルの仕組みの図">
+    <g font-family="Zen Kaku Gothic New, sans-serif">
+      <!-- left: cloud -->
+      <rect x="0" y="0" width="540" height="300" rx="14" fill="#FFFFFF" stroke="#D5D5D7"/>
+      <text x="24" y="38" font-size="20" font-weight="700" fill="#1A2A3A">クラウドで作業する</text>
+      <text x="24" y="64" font-size="15" fill="#5E6268">ブラウザ版・添付でのやり取り</text>
+      <rect x="40" y="110" width="150" height="100" rx="12" fill="#EEEFF0"/>
+      <text x="115" y="152" font-size="16" fill="#1A2A3A" text-anchor="middle">あなたのPC</text>
+      <text x="115" y="178" font-size="13" fill="#5E6268" text-anchor="middle">ファイルを添付</text>
+      <rect x="350" y="110" width="160" height="100" rx="12" fill="#1A2A3A"/>
+      <text x="430" y="152" font-size="16" fill="#FFFFFF" text-anchor="middle">AIのサーバー</text>
+      <text x="430" y="178" font-size="13" fill="#B9BBC1" text-anchor="middle">読む・作る</text>
+      <path d="M200 145h138" stroke="#1A2A3A" stroke-width="2" marker-end="url(#ah)"/>
+      <path d="M340 178H212" stroke="#535B65" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ah2)"/>
+      <text x="270" y="134" font-size="13" fill="#1A2A3A" text-anchor="middle">アップロード</text>
+      <text x="270" y="200" font-size="13" fill="#535B65" text-anchor="middle">ダウンロード</text>
+      <text x="24" y="262" font-size="15" fill="#5E6268">ファイルの写しを渡して、できたものを受け取る</text>
+      <!-- right: local -->
+      <rect x="596" y="0" width="540" height="300" rx="14" fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.6"/>
+      <text x="620" y="38" font-size="20" font-weight="700" fill="#1A2A3A">手元のPCで作業する</text>
+      <text x="620" y="64" font-size="15" fill="#5E6268">デスクトップアプリ（ChatGPTのWork）</text>
+      <rect x="630" y="96" width="250" height="140" rx="12" fill="#EEEFF0"/>
+      <text x="650" y="124" font-size="15" fill="#1A2A3A">あなたのPC</text>
+      <rect x="650" y="138" width="100" height="78" rx="8" fill="#FFFFFF" stroke="#1A2A3A" stroke-width="1.6"/>
+      <text x="700" y="172" font-size="14" fill="#1A2A3A" text-anchor="middle">許可した</text>
+      <text x="700" y="192" font-size="14" fill="#1A2A3A" text-anchor="middle">フォルダ</text>
+      <rect x="770" y="150" width="90" height="56" rx="8" fill="#1A2A3A"/>
+      <text x="815" y="183" font-size="14" fill="#FFFFFF" text-anchor="middle">アプリ</text>
+      <path d="M760 178h8" stroke="#1A2A3A" stroke-width="2"/>
+      <rect x="950" y="110" width="160" height="100" rx="12" fill="#1A2A3A"/>
+      <text x="1030" y="152" font-size="16" fill="#FFFFFF" text-anchor="middle">AI（クラウド）</text>
+      <text x="1030" y="178" font-size="13" fill="#B9BBC1" text-anchor="middle">考える</text>
+      <path d="M868 165h70" stroke="#1A2A3A" stroke-width="2" marker-end="url(#ah)"/>
+      <path d="M940 192h-60" stroke="#1A2A3A" stroke-width="2" marker-end="url(#ah)"/>
+      <text x="905" y="154" font-size="12.5" fill="#1A2A3A" text-anchor="middle">必要な部分</text>
+      <text x="905" y="212" font-size="12.5" fill="#1A2A3A" text-anchor="middle">作業の指示</text>
+      <text x="620" y="268" font-size="15" fill="#5E6268">考えるのはクラウドのAI、作業の場所は手元のフォルダ</text>
+    </g>
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1A2A3A"/></marker>
+      <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#535B65"/></marker>
+    </defs>
+  </svg>
+  <div class="card soft" style="margin-top:16px; flex-direction:row; align-items:center; gap:14px"><div class="ic mk"><svg class="i"><use href="#i-cloud"/></svg></div><p style="font-size:17.5px; color:var(--text)">最近は、作業をクラウドで進めながら、手元のフォルダにはアプリを通じて読み書きする形も出てきています。この場合も、PCの電源が入っていてアプリが開いている必要があります。</p></div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>「ローカル＝オフライン」ではない点に注意。手元で作業していても、考える部分はクラウドのAIに送られる（ChatGPT公式も明記）。ローカルで進めた会話はそのPCに残る。</aside>
+</section>
+
+<!-- 26 safety -->
+<section class="slide" data-min="3" data-part="第2部">
+  <div class="kicker">SAFETY</div>
+  <h2>安心して使うために</h2>
+  <div class="cards c2 mid big-ui">
+    <div class="card" style="padding:24px 26px; gap:14px">
+      <div class="hd"><div class="ic dk"><svg class="i"><use href="#i-shield"/></svg></div><h3>仕組みとして</h3></div>
+      <ul class="list sm">
+        <li>AIが触れるのは、自分で許可したフォルダだけ</li>
+        <li>法人向けプランは、初期設定で入力内容が学習に使われない</li>
+        <li>アプリを操作する前や大事な操作の前には、許可を求められる</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:24px 26px; gap:14px">
+      <div class="hd"><div class="ic"><svg class="i"><use href="#i-person"/></svg></div><h3>使う側として</h3></div>
+      <ul class="list sm">
+        <li>個人情報や社外秘の情報は、会社のルールに沿って扱う</li>
+        <li>個人ではなく、会社のアカウントを使う</li>
+        <li>作ってもらった内容の権利や事実関係は、自分で確認する</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>仕組みの3点は公式情報で確認済み（2026年10月19日時点）。管理者は、操作できるアプリを制限することもできる。研修直前に変更がないか見直す。</aside>
+</section>
+
+<!-- 29 what is skill -->
+<section class="slide" data-min="3" data-part="第2部">
+  <div class="kicker">SKILL</div>
+  <h2>スキルとは</h2>
+  <div class="split" style="grid-template-columns:400px 1fr; gap:34px">
+    <div class="panel dark">
+      <svg class="ill" viewBox="0 0 340 300" aria-hidden="true">
+        <g font-family="Zen Kaku Gothic New, sans-serif">
+          <rect x="70" y="30" width="200" height="240" rx="16" fill="#23354A" stroke="#B9BBC1" stroke-width="1.4"/>
+          <circle cx="170" cy="76" r="24" fill="#F0F0F2"/><path d="M170 63l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#1A2A3A"/>
+          <text x="170" y="128" font-size="16" fill="#F0F0F2" text-anchor="middle">請求書送付</text>
+          <g font-size="13" fill="#B9BBC1"><text x="96" y="166">手順</text><text x="96" y="200">出来上がりの形</text><text x="96" y="234">気をつけること</text></g>
+          <g stroke="#B9BBC1" stroke-width="1.2"><path d="M96 174h148M96 208h148M96 242h148"/></g>
+        </g>
+      </svg>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px; justify-content:center">
+      <p class="lead txt">仕事のやり方（手順、出来上がりの形、気をつけること）をまとめて、AIに覚えてもらう仕組みです。</p>
+      <div class="card row"><div class="ic"><svg class="i"><use href="#i-chat"/></svg></div><div><h3>毎回説明しなくていい</h3><p>名前を呼ぶだけで、決めた手順で進めてくれます。</p></div></div>
+      <div class="card row"><div class="ic"><svg class="i"><use href="#i-check"/></svg></div><div><h3>同じ品質でそろう</h3><p>誰が頼んでも、同じ形で出来上がります。</p></div></div>
+      <div class="card row"><div class="ic"><svg class="i"><use href="#i-users"/></svg></div><div><h3>社内で共有できる</h3><p>法人向けプランでは、作ったスキルを同僚と共有できます。</p></div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>ChatGPTのGPTsとGeminiのGemも、スキルの仕組みへ移行が進んでいる（2026年9月末時点）。聞かれたら補足。</aside>
+</section>
+
+<!-- 30 how to make skill -->
+<section class="slide" data-min="3" data-part="第2部">
+  <div class="kicker">HOW TO</div>
+  <h2>スキルの作り方は、頼むだけ</h2>
+  <div class="mid big-ui"><div class="cards c3">
+    <div class="card"><span class="num">1</span><div class="ic lg"><svg class="i"><use href="#i-check"/></svg></div><h3>うまくいった作業のあとで</h3><p>対話で形が整ったら、そのチャットのまま続けます。</p></div>
+    <div class="card"><span class="num">2</span><div class="ic lg"><svg class="i"><use href="#i-star"/></svg></div><h3>「スキルにして」と頼む</h3><p>足りないことは、AIが質問してくれます。</p></div>
+    <div class="card dark"><span class="num" style="color:#B9BBC1">3</span><div class="ic lg" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-chat"/></svg></div><h3>次からは名前で呼ぶ</h3><p>「〇〇スキルでお願い」と一言で頼めます。</p></div>
+  </div>
+  <div class="prompt" style="margin-top:18px"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>今の手順をスキルにして。</pre></div></div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>ChatGPTではビジネスプラン以上の機能。管理者が制限している場合は使えない。作ったスキルはサイドバーの「プラグイン」から確認できる（メニュー名は当日の画面で確認）。</aside>
+</section>
+
+<!-- demo overview -->
+<section class="slide" data-min="1" data-part="第2部">
+  <div class="kicker">DEMO</div>
+  <h2>ここからは実演です</h2>
+  <div class="agenda mid">
+    <div class="it"><div class="ic lg dk"><svg class="i"><use href="#i-folder"/></svg></div><div class="tt">DEMO 1　見積から、請求書のPDFを作る<small>フォルダを渡して、作成・照合・PDF保存まで。手元で一緒に</small></div><div class="mn">10分</div></div>
+    <div class="it"><div class="ic lg dk"><svg class="i"><use href="#i-mail"/></svg></div><div class="tt">DEMO 2　Gmailの下書きまで進めて、スキルにする<small>送付メールを書いてPDFを添付、送信せずに保存。最後に手順をスキルに</small></div><div class="mn">8分</div></div>
+    <div class="it"><div class="ic lg"><svg class="i"><use href="#i-star"/></svg></div><div class="tt">DEMO 3　次の見積を、一言で任せる<small>スキルを呼ぶだけで、請求書から下書きまで。講師の画面で</small></div><div class="mn">5分</div></div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>3つで一つの流れ。「一つずつやる → 覚えてもらう → 一言で任せる」。全員デスクトップアプリで「Work」が選べるか、ここで確認してから始める。</aside>
+</section>
+
+<!-- 27 demo 1 -->
+<section class="slide" data-min="10" data-part="第2部">
+  <div class="kicker"><span class="tag demo">DEMO 1</span><span class="tag min">10分・手元で一緒に</span></div>
+  <h2>見積から、請求書のPDFを作る</h2>
+  <div class="flow" style="margin-top:auto">
+    <div class="f"><span class="num">STEP 1</span><div class="ic"><svg class="i"><use href="#i-folder"/></svg></div><h3>読む</h3><p>フォルダの見積データと、請求書の書式を読みます。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f hl"><span class="num">STEP 2</span><div class="ic dk"><svg class="i"><use href="#i-table"/></svg></div><h3>作って照合</h3><p>Excelで請求書を作り、品名・数量・単価・税額・合計を見積と照合します。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f"><span class="num">STEP 3</span><div class="ic"><svg class="i"><use href="#i-doc"/></svg></div><h3>PDFで保存</h3><p>同じフォルダにPDFで保存し、文字切れやページ分割を確認します。</p></div>
+  </div>
+  <div class="prompt" style="margin-top:20px; margin-bottom:auto"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>このフォルダの見積データと請求書の書式を読んで、次の順に進めて。
+1. Excelで請求書を作り、品名・数量・単価・税額・合計を見積と照合する
+2. 請求書をPDFで同じフォルダに保存し、文字切れやページ分割がないか確認する
+終わったら、照合と確認の結果を教えて。</pre></div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>いただいた「納品書・請求書の生成」のご要望から。デスクトップアプリで「Work」を選び、練習用フォルダを開いて許可する画面も見せる（「選んだフォルダだけ」を実感してもらう）。AIが自分で照合・確認する手順を入れているのがポイント。それでも最後は人が確かめる、と添える。練習用ファイルは架空データ。</aside>
+</section>
+
+<!-- 28 demo 2 -->
+<section class="slide" data-min="8" data-part="第2部">
+  <div class="kicker"><span class="tag demo">DEMO 2</span><span class="tag min">8分・講師の画面で、最後は一緒に</span></div>
+  <h2 style="margin-bottom:18px">Gmailの下書きまで進めて、スキルにする</h2>
+  <div class="flow">
+    <div class="f"><span class="num">STEP 4</span><div class="ic"><svg class="i"><use href="#i-mail"/></svg></div><h3>送付メールを書く</h3><p>ブラウザでGmailを開き、テスト用のアドレス宛てに送付メールを書きます。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f hl"><span class="num">STEP 5</span><div class="ic dk"><svg class="i"><use href="#i-clip"/></svg></div><h3>添付して下書き保存</h3><p>PDFを添付して、送信はせずに下書きとして保存します。</p></div>
+    <div class="ar"><svg class="i" width="26" height="26"><use href="#i-arrow"/></svg></div>
+    <div class="f"><span class="num">SKILL</span><div class="ic"><svg class="i"><use href="#i-star"/></svg></div><h3>スキルにする</h3><p>ここまでの1〜5の手順を、名前を付けて覚えてもらいます。</p></div>
+  </div>
+  <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:14px; margin-top:16px">
+    <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT · STEP 4〜5</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>続けて、ブラウザでGmailを開いて、test@company.jp 宛てに請求書の送付メールを書いて。件名と本文には注文番号と船名を入れて。さっきのPDFを添付して、送信はせずに下書き保存して。</pre></div>
+    <div class="prompt lite"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT · SKILL</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>ここまでの手順をスキルにして。必要なことがあれば質問して。</pre></div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>いただいた「請求書送付メール」のご要望から。Gmailの操作は講師の画面で見せる（受信トレイが映らないテスト用アカウントで）。宛先は test@company.jp。必ず下書きで止める。ブラウザとExcelの操作は、画面を見て操作する「コンピューターユース」の機能。最後の「スキルにして」は全員で（受講者は手順1〜3の分をスキルにする）。スキルはビジネスプランの機能で、管理者設定で無効にされている場合あり。</aside>
+</section>
+
+<!-- 30b demo 3 one word -->
+<section class="slide" data-min="5" data-part="第2部">
+  <div class="kicker"><span class="tag demo">DEMO 3</span><span class="tag min">5分・講師の画面で</span></div>
+  <h2 style="margin-bottom:18px">次の見積を、一言で任せる</h2>
+  <div class="split mid" style="grid-template-columns:1fr 1fr; gap:30px; flex:0 0 auto; align-items:center">
+    <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
+      <div class="prompt"><div class="ph"><span class="lb"><span class="dot"></span>PROMPT</span><button class="copy" type="button"><svg class="i"><use href="#i-copy"/></svg>コピー</button></div><pre>請求書送付スキルで、「見積_002.xlsx」の請求書を作って、Gmailの下書きまで進めて。</pre></div>
+      <div class="card dark" style="flex-direction:row; gap:14px; align-items:flex-start; padding:18px 20px"><div class="ic" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-person"/></svg></div><div><h3 style="font-size:19px">送るかどうかは、人が決める</h3><p style="font-size:16px">AIは下書きで止まります。中身を確かめて、送信ボタンを押すのは自分です。</p></div></div>
+      <p style="font-size:15px; color:var(--muted); line-height:1.6">ExcelやGmailの画面を操作しているのは「コンピューターユース」という機能です。画面のあるアプリなら、CADのような専用ソフトにも応用できる可能性があります。御社の環境で、これから一緒に試していきましょう。</p>
+    </div>
+    <div class="card" style="padding:22px 26px; gap:12px; justify-content:center">
+      <h3 style="font-size:18px; color:var(--muted)">一言で、AIが進めること</h3>
+      <ol class="steps" style="gap:14px">
+        <li style="font-size:19px">見積データと請求書の書式を読む</li>
+        <li style="font-size:19px">請求書を作り、見積と照合する</li>
+        <li style="font-size:19px">PDFで保存し、見た目を確認する</li>
+        <li style="font-size:19px">Gmailで送付メールを書く</li>
+        <li style="font-size:19px">PDFを添付して、下書き保存する</li>
+      </ol>
+    </div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>今日の山場。DEMO 1・2で一つずつやった手順が、一言で全部動くところを見せる。AIが動いている間に「これが研修の最初に見せた『同僚として働く』の入口」と話す。止まった場合や時間が押した場合は、前日に録画した版に切り替える。CADは「できる」と言い切らず「可能性がある、一緒に試す」で止める。</aside>
+</section>
+
+<!-- 31 judgment -->
+<section class="slide" data-min="2" data-part="第2部">
+  <div class="kicker">JUDGMENT</div>
+  <h2>どこまで任せて、どこから自分で決めるか</h2>
+  <div class="mid big-ui"><div class="split" style="grid-template-columns:1fr 1fr; gap:0; flex:0 0 auto">
+    <div class="card" style="border-radius:12px 0 0 12px; padding:26px 30px; gap:14px"><div class="hd"><div class="ic"><svg class="i"><use href="#i-spark"/></svg></div><h3>AIに任せやすいこと</h3></div><ul class="list sm"><li>下書き、要約、整理</li><li>資料の読み込みと抜き出し</li><li>抜け漏れや表現の確認</li></ul></div>
+    <div class="card dark" style="border-radius:0 12px 12px 0; padding:26px 30px; gap:14px"><div class="hd"><div class="ic" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-person"/></svg></div><h3>自分で決めること</h3></div><ul class="list sm" style="--x:0"><li style="color:#F0F0F2">内容が正しいかの最終確認</li><li style="color:#F0F0F2">お客様に出すかどうかの判断</li><li style="color:#F0F0F2">金額・納期・仕様の決定</li></ul></div>
+  </div>
+  <p class="lead" style="margin-top:24px">作業が速くなる分、確認と判断の回数が増えます。最後に責任を持つのは人です。</p></div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>3つのDEMOを見たあとの振り返り。「AIを使うと疲れる」話をここで。判断の量が増えるから。任せきりにしない。</aside>
+</section>
+
+<!-- 32 work list -->
+<section class="slide" data-min="7" data-part="第2部">
+  <div class="kicker"><span class="tag work">ワーク</span><span class="tag min">7分</span></div>
+  <h2>スキルにしたい作業を、一つ書き出す</h2>
+  <div class="split r mid big-ui" style="grid-template-columns:1fr 400px; gap:30px; flex:0 0 auto; align-items:center">
+    <div style="display:grid; gap:14px; align-content:start">
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-repeat"/></svg></div><div><h3>1　どんな作業？</h3><p>毎週・毎月くり返している作業や、時間がかかっている作業。</p></div></div>
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-folder"/></svg></div><div><h3>2　何を使う？</h3><p>その作業で使う資料やファイル。どこに保存されているか。</p></div></div>
+      <div class="card row"><div class="ic dk"><svg class="i"><use href="#i-doc"/></svg></div><div><h3>3　どんな形にしたい？</h3><p>出来上がりの形。表、文章、報告書など。</p></div></div>
+    </div>
+    <div class="card soft" style="align-self:start; gap:10px"><h3 style="font-size:18px">書き出し例</h3><div style="display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:16.5px; line-height:1.5"><b style="font-size:14px; color:var(--mark)">作業</b><span>送付メールを提出先ごとに作る</span><b style="font-size:14px; color:var(--mark)">使うもの</b><span>請求書のExcel、提出先の一覧</span><b style="font-size:14px; color:var(--mark)">形</b><span>宛先・件名・CC・本文を、そのままコピーできる形で</span></div></div>
+  </div>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>紙かメモアプリに。このあとの個別相談で一人ずつ見る。</aside>
+</section>
+
+<!-- 33 apps 9 -->
+<section class="slide" data-min="2" data-part="第2部">
+  <div class="kicker">NEXT</div>
+  <h2 style="margin-bottom:16px">仕組みを整えると、こんなことまで</h2>
+  <div class="cards c3" style="flex:1; gap:12px">
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-table"/></svg></div><div><h3 style="font-size:17.5px">在庫の見張り</h3><p style="font-size:15px">在庫表を毎日確認し、不足や過剰を知らせる</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-check"/></svg></div><div><h3 style="font-size:17.5px">出荷前のチェック</h3><p style="font-size:15px">受注内容と付属品の一覧を照らし合わせ、入れ忘れを防ぐ</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-bell"/></svg></div><div><h3 style="font-size:17.5px">納期の見張り</h3><p style="font-size:15px">納品予定から、遅れそうな案件を早めに知らせる</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-stack"/></svg></div><div><h3 style="font-size:17.5px">データの照合</h3><p style="font-size:15px">受注・発注・出荷のデータを突き合わせ、食い違いを探す</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-mail"/></svg></div><div><h3 style="font-size:17.5px">メールの返信を下書き</h3><p style="font-size:15px">届いたメールを確認し、返信の下書きを用意</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-mic"/></svg></div><div><h3 style="font-size:17.5px">会議のあとの段取り</h3><p style="font-size:15px">議事録からやることを抜き出し、担当者に共有</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-pen"/></svg></div><div><h3 style="font-size:17.5px">CADの操作を手伝う</h3><p style="font-size:15px">画面操作や自動化の手順で、寸法の記入などを手伝う（検証が必要）</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-docplus"/></svg></div><div><h3 style="font-size:17.5px">提案資料の下書き</h3><p style="font-size:15px">導入実績の一覧から、提案資料のたたき台を作る</p></div></div>
+    <div class="card row" style="padding:14px 16px; gap:12px"><div class="ic"><svg class="i"><use href="#i-chat"/></svg></div><div><h3 style="font-size:17.5px">社内チャットで一次回答</h3><p style="font-size:15px">よくある質問に、社内資料をもとに答える</p></div></div>
+  </div>
+  <p class="src" style="margin-top:12px">送信や登録など外に影響する操作は、承認してから実行する設定にできます。今日の「仕事場を渡す」「覚えてもらう」が、その土台になります。</p>
+  <div class="foot"><span class="p">第2部</span><span class="pg"></span></div>
+  <aside>紹介だけ。上の段はいただいた「在庫・出荷・納期」のご要望。データの置き場所と、毎日AIが見に行く仕組みを整えれば実現できる範囲。今回の5名が社内に広げていく話、研修後のご相談へつなげる。CADは検証が必要と明記。</aside>
+</section>
+
+<!-- 34 divider QA -->
+<section class="slide div" data-min="18" data-part="質疑・相談">
+  <svg class="div-art" viewBox="0 0 380 380" aria-hidden="true"><g fill="none" stroke="#B9BBC1" stroke-width="1.4" opacity=".5"><circle cx="190" cy="190" r="170"/><circle cx="190" cy="190" r="110" stroke-dasharray="4 7"/></g><circle cx="150" cy="170" r="54" fill="#23354A" stroke="#B9BBC1" stroke-width="1.4"/><circle cx="240" cy="215" r="44" fill="#F0F0F2"/><g font-family="Inter, sans-serif" font-size="44" font-weight="600" text-anchor="middle"><text x="150" y="186" fill="#F0F0F2">?</text><text x="240" y="230" fill="#1A2A3A" font-size="34">!</text></g></svg>
+  <div class="kicker">Q&amp;A</div>
+  <h1>質疑と個別相談</h1>
+  <p class="lead">書き出した作業を一緒に見て、どう頼めばスキルにできるかを考えます。</p>
+  <div class="mins">20 min</div>
+  <div class="foot"><span class="p">質疑・相談</span><span class="pg"></span></div>
+  <aside>全体質疑5分、個別相談13分程度。一人ずつ「最初の一言」まで決めて持ち帰ってもらう。</aside>
+</section>
+
+<!-- 35 takeaway -->
+<section class="slide" data-min="1" data-part="質疑・相談">
+  <div class="kicker">TAKE AWAY</div>
+  <h2>明日から試すこと</h2>
+  <div class="cards c4 mid big-ui">
+    <div class="card"><span class="num">1</span><div class="ic lg"><svg class="i"><use href="#i-chat"/></svg></div><h3 style="font-size:22px">状況と目的を伝えて相談する</h3></div>
+    <div class="card"><span class="num">2</span><div class="ic lg"><svg class="i"><use href="#i-q"/></svg></div><h3 style="font-size:22px">迷ったら、AIに質問してもらう</h3></div>
+    <div class="card"><span class="num">3</span><div class="ic lg"><svg class="i"><use href="#i-pen"/></svg></div><h3 style="font-size:22px">書き出した作業を、一度AIとやってみる</h3></div>
+    <div class="card dark"><span class="num" style="color:#B9BBC1">4</span><div class="ic lg" style="background:#2E4258; color:#F0F0F2"><svg class="i"><use href="#i-star"/></svg></div><h3 style="font-size:22px">うまくいったら、<br>スキルにする</h3></div>
+  </div>
+  <div class="card soft" style="flex-direction:row; align-items:center; gap:14px; margin-bottom:auto"><div class="ic mk"><svg class="i"><use href="#i-doc"/></svg></div><p style="font-size:18px; color:var(--text)">いただいた「AIでやりたいこと」のすべてに、プロンプトの例を用意しました。別資料「やりたいこと別プロンプト集」をご覧ください。</p></div>
+  <div class="foot"><span class="p">質疑・相談</span><span class="pg"></span></div>
+  <aside>持ち帰り資料（プロンプト集、練習用フォルダ）の案内もここで。</aside>
+</section>
+
+<!-- 36 end -->
+<section class="slide cover" data-min="1" data-part="">
+  <svg class="cover-art" viewBox="0 0 440 440" aria-hidden="true"><circle cx="220" cy="220" r="200" fill="url(#og)" opacity=".55"/><g fill="none" stroke="#1A2A3A" stroke-width="1.4" opacity=".55"><circle cx="220" cy="220" r="150"/><circle cx="220" cy="220" r="96" stroke-dasharray="4 6"/></g><circle cx="220" cy="220" r="16" fill="#1A2A3A"/></svg>
+  <div class="kicker">THANK YOU</div>
+  <h1>ありがとうございました</h1>
+  <p class="lead" style="position:relative">分からないことが出てきたら、まずAIに聞いてみてください。</p>
+  <div class="meta"><div><b>LECTURER</b>喜多村 一寛（TOKON）</div></div>
+  <aside>終了。</aside>
+</section>
+
+</div></div>
+
+<div class="notes" id="notes" role="region" aria-label="講師メモ"><div class="hd"><span id="nPart"></span><span><b id="nMin"></b>　経過 <b id="nTime">0:00</b></span></div><div id="nBody"></div></div>
+
+<script>
+(function(){
+  var deck=document.getElementById('deck');
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var n=slides.length, cur=0;
+  slides.forEach(function(s,i){var pg=s.querySelector('.pg'); if(pg) pg.textContent=(i+1)+' / '+n;});
+  function fit(){var s=Math.min(window.innerWidth/1280, window.innerHeight/720); deck.style.transform='scale('+s+')';}
+  var notes=document.getElementById('notes'), nBody=document.getElementById('nBody'), nMin=document.getElementById('nMin'), nPart=document.getElementById('nPart'), nTime=document.getElementById('nTime');
+  function show(i){
+    cur=Math.max(0,Math.min(n-1,i));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===cur);});
+    var s=slides[cur], a=s.querySelector('aside');
+    nBody.textContent=a?a.textContent:'';
+    nMin.textContent='目安 '+(s.dataset.min||0)+'分';
+    nPart.textContent=(cur+1)+' / '+n+(s.dataset.part?'　'+s.dataset.part:'');
+    if(history.replaceState) history.replaceState(null,'','#'+(cur+1));
+  }
+  /* copy buttons */
+  var ICON_OK='<svg class="i"><use href="#i-ok"/></svg>', ICON_COPY='<svg class="i"><use href="#i-copy"/></svg>';
+  function fallbackCopy(t){var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);}
+  [].forEach.call(document.querySelectorAll('.copy'),function(b){
+    b.setAttribute('aria-label','プロンプトをコピー');
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      var t=b.closest('.prompt').querySelector('pre').innerText;
+      var done=function(){b.innerHTML=ICON_OK+'コピーしました'; b.classList.add('done'); setTimeout(function(){b.innerHTML=ICON_COPY+'コピー'; b.classList.remove('done');},1600);};
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){fallbackCopy(t);done();});} else {fallbackCopy(t); done();}
+    });
+  });
+  var t0=null, timer=null;
+  function tick(){var sec=Math.floor((Date.now()-t0)/1000); nTime.textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');}
+  document.addEventListener('keydown',function(e){
+    if(e.target.closest&&e.target.closest('.copy')&&(e.key==='Enter'||e.key===' ')) return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '||k==='Enter'){e.preventDefault(); show(cur+1);}
+    else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault(); show(cur-1);}
+    else if(k==='Home'){show(0);} else if(k==='End'){show(n-1);}
+    else if(k==='n'||k==='N'){notes.classList.toggle('on');}
+    else if(k==='t'||k==='T'){ if(timer){clearInterval(timer);timer=null;} else {t0=t0||Date.now(); timer=setInterval(tick,1000); tick();} }
+    else if(k==='f'||k==='F'){ if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();} else {document.exitFullscreen();} }
+  });
+  document.querySelector('.stage').addEventListener('click',function(e){
+    if(e.target.closest('.copy')||e.target.closest('pre')) return;
+    if(window.getSelection&&String(window.getSelection()).length) return;
+    if(e.clientX>window.innerWidth/2) show(cur+1); else show(cur-1);
+  });
+  var sx=null;
+  document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend',function(e){ if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) show(cur+(dx<0?1:-1)); sx=null;});
+  window.addEventListener('resize',fit);
+  fit();
+  var h=parseInt((location.hash||'').slice(1),10);
+  show(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>
